@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cửa hàng điện thoại chính hãng – iPhone, Samsung, Xiaomi và phụ kiện cao cấp." />
+    <title>@ViewData["Title"] – PhoneStore</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+<body>
+
+    <!-- =========== NAVBAR =========== -->
+    <header class="navbar" id="mainNavbar">
+        <div class="navbar__inner">
+
+            <!-- Logo -->
+            <a href="/" class="navbar__logo" aria-label="Trang chủ PhoneStore">
+                <img src="/images/logo.png" alt="PhoneStore Logo" height="36" />
+            </a>
+
+            <!-- Category menu -->
+            <nav class="navbar__menu" aria-label="Danh mục sản phẩm">
+                <ul class="navbar__menu-list">
+                    <li><a href="/products/iphone" class="navbar__menu-link">iPhone</a></li>
+                    <li><a href="/products/samsung" class="navbar__menu-link">Samsung</a></li>
+                    <li><a href="/products/xiaomi" class="navbar__menu-link">Xiaomi</a></li>
+                    <li><a href="/products/accessories" class="navbar__menu-link">Phụ kiện</a></li>
+                </ul>
+            </nav>
+
+            <!-- Search bar -->
+            <div class="navbar__search">
+                <label for="searchInput" class="sr-only">Tìm kiếm sản phẩm</label>
+                <i class="fa-solid fa-magnifying-glass navbar__search-icon" aria-hidden="true"></i>
+                <input
+                    type="search"
+                    id="searchInput"
+                    class="navbar__search-input"
+                    placeholder="Bạn muốn mua gì cho hôm nay?"
+                    autocomplete="off"
+                />
+            </div>
+
+            <!-- Actions: Cart + Login -->
+            <div class="navbar__actions">
+                <a href="/cart" class="navbar__action-btn" aria-label="Giỏ hàng">
+                    <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                    <span>Giỏ hàng</span>
+                    <span class="navbar__cart-badge" id="cartBadge" aria-live="polite">0</span>
+                </a>
+                <partial name="_LoginPartial" />
+
+                @* <a href="/account/login" class="navbar__action-btn" aria-label="Đăng nhập">
+                    <i class="fa-regular fa-circle-user" aria-hidden="true"></i>
+                    <span>Đăng nhập</span>
+                </a> *@
+            </div>
+
+            <!-- Mobile hamburger -->
+            <button class="navbar__hamburger" id="hamburgerBtn" aria-label="Mở menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+        </div>
+
+        <!-- Mobile menu drawer -->
+        <div class="navbar__mobile-menu" id="mobileMenu" aria-hidden="true">
+            <ul>
+                <li><a href="/products/iphone">iPhone</a></li>
+                <li><a href="/products/samsung">Samsung</a></li>
+                <li><a href="/products/xiaomi">Xiaomi</a></li>
+                <li><a href="/products/accessories">Phụ kiện</a></li>
+                <li class="mobile-divider"></li>
+                <li><a href="/cart"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a></li>
+                <li><a href="/account/login"><i class="fa-regular fa-circle-user"></i> Đăng nhập</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- =========== MAIN CONTENT =========== -->
+    <main id="main-content">
+        @RenderBody()
+    </main>
+
+    <!-- =========== FOOTER =========== -->
+    <footer class="footer">
+        <div class="footer__inner">
+
+            <!-- Column 1: Company info -->
+            <div class="footer__col">
+                <h3 class="footer__heading">PhoneStore</h3>
+                <p class="footer__text">
+                    Hệ thống bán lẻ điện thoại chính hãng hàng đầu Việt Nam.
+                    Cam kết 100% sản phẩm chính hãng, bảo hành đầy đủ.
+                </p>
+                <div class="footer__socials">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <!-- Column 2: Customer support -->
+            <div class="footer__col">
+                <h3 class="footer__heading">Hỗ trợ khách hàng</h3>
+                <ul class="footer__links">
+                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Tra cứu đơn hàng</a></li>
+                    <li><a href="#">Hỗ trợ trực tuyến</a></li>
+                    <li><a href="#">FAQ – Câu hỏi thường gặp</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Policies -->
+            <div class="footer__col">
+                <h3 class="footer__heading">Chính sách</h3>
+                <ul class="footer__links">
+                    <li><a href="#">Chính sách bảo hành</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách vận chuyển</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Contact -->
+            <div class="footer__col">
+                <h3 class="footer__heading">Liên hệ</h3>
+                <ul class="footer__contact">
+                    <li>
+                        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                        <span>123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                        <a href="tel:19001234">1900 1234</a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        <a href="mailto:support@phonestore.vn">support@phonestore.vn</a>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-clock" aria-hidden="true"></i>
+                        <span>8:00 – 22:00 mỗi ngày</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer__bottom">
+            <p>© @DateTime.Now.Year PhoneStore. Tất cả quyền được bảo lưu.</p>
+            <p>Giấy phép kinh doanh số: 0123456789 – Sở KH&ĐT TP. HCM</p>
+        </div>
+    </footer>
+
+    <script src="~/js/home.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

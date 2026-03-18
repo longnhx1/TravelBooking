@@ -1,0 +1,209 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+}
+
+<div class="dashboard">
+    <div class="dashboard__container">
+
+        <!-- Header -->
+        <header class="dashboard__header">
+            <h1 class="dashboard__title">Dashboard</h1>
+            <div class="dashboard__greeting">
+                <span id="currentTime"></span>
+                <div class="dashboard__greeting-avatar">A</div>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="dashboard__stats" aria-label="Thong ke tong quan">
+            <!-- Products -->
+            <article class="stat-card stat-card--products">
+                <div class="stat-card__content">
+                    <span class="stat-card__label">Tong San Pham</span>
+                    <span class="stat-card__value" data-counter="@ViewBag.TotalProducts">0</span>
+                    <span class="stat-card__trend">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        12% thang nay
+                    </span>
+                </div>
+                <div class="stat-card__icon">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+            </article>
+
+            <!-- Categories -->
+            <article class="stat-card stat-card--categories">
+                <div class="stat-card__content">
+                    <span class="stat-card__label">Danh Muc</span>
+                    <span class="stat-card__value" data-counter="@ViewBag.TotalCategories">0</span>
+                    <span class="stat-card__trend">
+                        <i class="fa-solid fa-check"></i>
+                        Da cap nhat
+                    </span>
+                </div>
+                <div class="stat-card__icon">
+                    <i class="fa-solid fa-tags"></i>
+                </div>
+            </article>
+
+            <!-- Users -->
+            <article class="stat-card stat-card--users">
+                <div class="stat-card__content">
+                    <span class="stat-card__label">Tai Khoan</span>
+                    <span class="stat-card__value" data-counter="@ViewBag.TotalUsers">0</span>
+                    <span class="stat-card__trend">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        5 moi trong tuan
+                    </span>
+                </div>
+                <div class="stat-card__icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+            </article>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="dashboard__section">
+            <div class="dashboard__section-header">
+                <div class="dashboard__section-icon">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h2 class="dashboard__section-title">Thao Tac Nhanh</h2>
+            </div>
+            <div class="dashboard__section-body">
+                <div class="quick-actions">
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Add" class="quick-action quick-action--primary">
+                        <div class="quick-action__icon">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                        <span>Them San Pham</span>
+                    </a>
+
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="quick-action">
+                        <div class="quick-action__icon">
+                            <i class="fa-solid fa-list"></i>
+                        </div>
+                        <span>Danh Sach SP</span>
+                    </a>
+
+                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="quick-action">
+                        <div class="quick-action__icon">
+                            <i class="fa-solid fa-folder-open"></i>
+                        </div>
+                        <span>Quan Ly Danh Muc</span>
+                    </a>
+
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="quick-action quick-action--link">
+                        <div class="quick-action__icon">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <span>Xem Cua Hang</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activity & System Info Grid -->
+        <div class="dashboard__grid">
+            <!-- Recent Activity -->
+            <section class="dashboard__section">
+                <div class="dashboard__section-header">
+                    <div class="dashboard__section-icon">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h2 class="dashboard__section-title">Hoat Dong Gan Day</h2>
+                    <button type="button" id="refreshActivity" class="quick-action__icon" style="margin-left: auto; cursor: pointer; border: none;">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-item__icon activity-item__icon--success">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                        <div class="activity-item__content">
+                            <p class="activity-item__title">Them san pham moi: iPhone 15 Pro Max</p>
+                            <span class="activity-item__meta">Boi Admin</span>
+                        </div>
+                        <span class="activity-item__time">2 phut truoc</span>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-item__icon">
+                            <i class="fa-solid fa-pen"></i>
+                        </div>
+                        <div class="activity-item__content">
+                            <p class="activity-item__title">Cap nhat gia: Samsung Galaxy S24 Ultra</p>
+                            <span class="activity-item__meta">Boi Admin</span>
+                        </div>
+                        <span class="activity-item__time">15 phut truoc</span>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-item__icon activity-item__icon--warning">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div class="activity-item__content">
+                            <p class="activity-item__title">Nguoi dung moi dang ky: user@example.com</p>
+                            <span class="activity-item__meta">Tu dong</span>
+                        </div>
+                        <span class="activity-item__time">1 gio truoc</span>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-item__icon activity-item__icon--success">
+                            <i class="fa-solid fa-folder-plus"></i>
+                        </div>
+                        <div class="activity-item__content">
+                            <p class="activity-item__title">Them danh muc: Phu kien</p>
+                            <span class="activity-item__meta">Boi Admin</span>
+                        </div>
+                        <span class="activity-item__time">3 gio truoc</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Info -->
+            <section class="dashboard__section">
+                <div class="dashboard__section-header">
+                    <div class="dashboard__section-icon">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                    <h2 class="dashboard__section-title">Thong Tin He Thong</h2>
+                </div>
+                <div class="system-info">
+                    <div class="system-info__item">
+                        <span class="system-info__label">Trang thai</span>
+                        <span class="system-info__badge">Hoat dong</span>
+                    </div>
+                    <div class="system-info__item">
+                        <span class="system-info__label">Phien ban</span>
+                        <span class="system-info__value">1.0.0</span>
+                    </div>
+                    <div class="system-info__item">
+                        <span class="system-info__label">Framework</span>
+                        <span class="system-info__value">ASP.NET Core 8</span>
+                    </div>
+                    <div class="system-info__item">
+                        <span class="system-info__label">Database</span>
+                        <span class="system-info__value">SQL Server</span>
+                    </div>
+                    <div class="system-info__item">
+                        <span class="system-info__label">Cap nhat cuoi</span>
+                        <span class="system-info__value">@DateTime.Now.ToString("dd/MM/yyyy")</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/admin-dashboard.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,121 @@
+﻿@model IEnumerable<Lab_03.Models.Product>
+
+@{
+    ViewData["Title"] = "Quan ly San pham";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-product-list.css" asp-append-version="true" />
+}
+
+<div class="product-list-page">
+    <!-- Page Header -->
+    <header class="product-list-header">
+        <div class="product-list-header__left">
+            <h1>Quan ly San pham</h1>
+            <p>@Model.Count() san pham trong he thong</p>
+        </div>
+        <div class="product-list-header__right">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Tim kiem san pham..." />
+            </div>
+            <a asp-area="Admin" asp-controller="Product" asp-action="Add" class="btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                <span>Them san pham</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Product Table -->
+    <div class="product-table-card">
+        <div class="table-responsive">
+            <table class="product-table" id="productTable">
+                <thead>
+                    <tr>
+                        <th class="th-image">Hinh anh</th>
+                        <th class="th-name">Ten san pham</th>
+                        <th class="th-category">Danh muc</th>
+                        <th class="th-price">Gia</th>
+                        <th class="th-desc">Mo ta</th>
+                        <th class="th-actions">Thao tac</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr class="empty-row">
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-box-open"></i>
+                                    <h3>Chua co san pham nao</h3>
+                                    <p>Bat dau bang cach them san pham dau tien</p>
+                                    <a asp-area="Admin" asp-controller="Product" asp-action="Add" class="btn-primary">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Them san pham moi
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var product in Model)
+                        {
+                            <tr class="product-row" data-product-name="@product.Name.ToLower()">
+                                <td class="td-image">
+                                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                    {
+                                        <div class="product-thumb">
+                                            <img src="@product.ImageUrl" alt="@product.Name" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="product-thumb product-thumb--empty">
+                                            <i class="fa-solid fa-image"></i>
+                                        </div>
+                                    }
+                                </td>
+                                <td class="td-name">
+                                    <span class="product-name">@product.Name</span>
+                                </td>
+                                <td class="td-category">
+                                    <span class="category-badge">
+                                        @(product.Category?.Name ?? "Chua phan loai")
+                                    </span>
+                                </td>
+                                <td class="td-price">
+                                    <span class="price-text">@string.Format("{0:#,##0}", product.Price) VND</span>
+                                </td>
+                                <td class="td-desc">
+                                    <span class="desc-text" title="@product.Description">
+                                        @(product.Description?.Length > 60 ? product.Description.Substring(0, 60) + "..." : product.Description ?? "—")
+                                    </span>
+                                </td>
+                                <td class="td-actions">
+                                    <div class="action-buttons">
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Display" asp-route-id="@product.Id" class="action-btn action-btn--view" title="Xem chi tiet">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@product.Id" class="action-btn action-btn--edit" title="Chinh sua">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="action-btn action-btn--delete" title="Xoa san pham" data-product-name="@product.Name">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/admin-product-list.js" asp-append-version="true"></script>
+}

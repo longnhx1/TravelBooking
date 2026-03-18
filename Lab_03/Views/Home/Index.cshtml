@@ -1,0 +1,311 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<link rel="stylesheet" href="~/css/home.css" />
+<!-- =========================================================
+     SECTION 1 – HERO BANNER
+     ========================================================= -->
+<section class="hero" aria-label="Banner khuyến mãi">
+    <div class="hero__content">
+        <span class="hero__tag">Mới nhất 2025</span>
+        <h1 class="hero__title">iPhone 16 Pro Max</h1>
+        <p class="hero__subtitle">
+            Camera 48MP thế hệ mới. Chip A18 Pro mạnh mẽ nhất từ trước đến nay.<br />
+            Trải nghiệm đỉnh cao trong lòng bàn tay bạn.
+        </p>
+        <div class="hero__actions">
+            <a href="/products/iphone" class="btn btn--primary">Khám phá ngay</a>
+            <a href="/products/iphone/iphone-16-pro-max" class="btn btn--ghost">Xem chi tiết</a>
+        </div>
+    </div>
+    <div class="hero__visual" aria-hidden="true">
+        <div class="hero__phone-mockup">
+            <img src="~/images/iphone-17-pro-model-unselect-gallery-2-202509_GEO_US.webp" alt="iPhone 16 Pro Max" loading="eager" />
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================
+     SECTION 2 – FEATURED PRODUCTS
+     ========================================================= -->
+<section class="section" aria-labelledby="featuredHeading">
+    <div class="section__header">
+        <h2 class="section__title" id="featuredHeading">Sản phẩm nổi bật</h2>
+        <a href="/products" class="section__link">Xem tất cả <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="products-grid">
+
+        <!-- Product Card 1 -->
+        <article class="product-card">
+            <a href="/products/iphone-16-pro" class="product-card__image-link">
+                <div class="product-card__image-wrap">
+                    <img src="/images/products/iphone-16-pro.png" alt="iPhone 16 Pro" loading="lazy" />
+                    <span class="product-card__badge">-10%</span>
+                </div>
+            </a>
+            <div class="product-card__body">
+                <p class="product-card__brand">Apple</p>
+                <h3 class="product-card__name">
+                    <a href="/products/iphone-16-pro">iPhone 16 Pro 256GB</a>
+                </h3>
+                <div class="product-card__pricing">
+                    <span class="product-card__price">28.990.000 ₫</span>
+                    <span class="product-card__original-price">32.190.000 ₫</span>
+                </div>
+                <button class="btn btn--cart" data-product-id="1" aria-label="Thêm iPhone 16 Pro vào giỏ hàng">
+                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </article>
+
+        <!-- Product Card 2 -->
+        <article class="product-card">
+            <a href="/products/samsung-s25-ultra" class="product-card__image-link">
+                <div class="product-card__image-wrap">
+                    <img src="/images/products/samsung-s25-ultra.png" alt="Samsung Galaxy S25 Ultra" loading="lazy" />
+                    <span class="product-card__badge">-15%</span>
+                </div>
+            </a>
+            <div class="product-card__body">
+                <p class="product-card__brand">Samsung</p>
+                <h3 class="product-card__name">
+                    <a href="/products/samsung-s25-ultra">Galaxy S25 Ultra 256GB</a>
+                </h3>
+                <div class="product-card__pricing">
+                    <span class="product-card__price">26.990.000 ₫</span>
+                    <span class="product-card__original-price">31.990.000 ₫</span>
+                </div>
+                <button class="btn btn--cart" data-product-id="2" aria-label="Thêm Samsung S25 Ultra vào giỏ hàng">
+                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </article>
+
+        <!-- Product Card 3 -->
+        <article class="product-card">
+            <a href="/products/xiaomi-15-pro" class="product-card__image-link">
+                <div class="product-card__image-wrap">
+                    <img src="/images/products/xiaomi-15-pro.png" alt="Xiaomi 15 Pro" loading="lazy" />
+                    <span class="product-card__badge product-card__badge--new">Mới</span>
+                </div>
+            </a>
+            <div class="product-card__body">
+                <p class="product-card__brand">Xiaomi</p>
+                <h3 class="product-card__name">
+                    <a href="/products/xiaomi-15-pro">Xiaomi 15 Pro 512GB</a>
+                </h3>
+                <div class="product-card__pricing">
+                    <span class="product-card__price">21.990.000 ₫</span>
+                    <span class="product-card__original-price">24.990.000 ₫</span>
+                </div>
+                <button class="btn btn--cart" data-product-id="3" aria-label="Thêm Xiaomi 15 Pro vào giỏ hàng">
+                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </article>
+
+        <!-- Product Card 4 -->
+        <article class="product-card">
+            <a href="/products/airpods-pro-2" class="product-card__image-link">
+                <div class="product-card__image-wrap">
+                    <img src="/images/products/airpods-pro-2.png" alt="AirPods Pro 2" loading="lazy" />
+                    <span class="product-card__badge">-8%</span>
+                </div>
+            </a>
+            <div class="product-card__body">
+                <p class="product-card__brand">Apple</p>
+                <h3 class="product-card__name">
+                    <a href="/products/airpods-pro-2">AirPods Pro (thế hệ 2)</a>
+                </h3>
+                <div class="product-card__pricing">
+                    <span class="product-card__price">5.990.000 ₫</span>
+                    <span class="product-card__original-price">6.490.000 ₫</span>
+                </div>
+                <button class="btn btn--cart" data-product-id="4" aria-label="Thêm AirPods Pro 2 vào giỏ hàng">
+                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<!-- =========================================================
+     SECTION 3 – CATEGORIES
+     ========================================================= -->
+<section class="section section--gray" aria-labelledby="categoriesHeading">
+    <div class="section__header">
+        <h2 class="section__title" id="categoriesHeading">Danh mục thương hiệu</h2>
+        <a href="/products" class="section__link">Tất cả thương hiệu <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="categories-grid">
+
+        <a href="/products/iphone" class="category-card" aria-label="Xem điện thoại iPhone">
+            <div class="category-card__icon-wrap">
+                <img src="/images/brands/apple.svg" alt="Apple" width="48" height="48" />
+            </div>
+            <span class="category-card__name">iPhone</span>
+            <span class="category-card__count">24 sản phẩm</span>
+        </a>
+
+        <a href="/products/samsung" class="category-card" aria-label="Xem điện thoại Samsung">
+            <div class="category-card__icon-wrap">
+                <img src="/images/brands/samsung.svg" alt="Samsung" width="48" height="48" />
+            </div>
+            <span class="category-card__name">Samsung</span>
+            <span class="category-card__count">31 sản phẩm</span>
+        </a>
+
+        <a href="/products/xiaomi" class="category-card" aria-label="Xem điện thoại Xiaomi">
+            <div class="category-card__icon-wrap">
+                <img src="/images/brands/xiaomi.svg" alt="Xiaomi" width="48" height="48" />
+            </div>
+            <span class="category-card__name">Xiaomi</span>
+            <span class="category-card__count">18 sản phẩm</span>
+        </a>
+
+        <a href="/products/accessories" class="category-card" aria-label="Xem phụ kiện">
+            <div class="category-card__icon-wrap">
+                <i class="fa-solid fa-headphones fa-2x" aria-hidden="true"></i>
+            </div>
+            <span class="category-card__name">Phụ kiện</span>
+            <span class="category-card__count">52 sản phẩm</span>
+        </a>
+
+        <a href="/products/oppo" class="category-card" aria-label="Xem điện thoại OPPO">
+            <div class="category-card__icon-wrap">
+                <img src="/images/brands/oppo.svg" alt="OPPO" width="48" height="48" />
+            </div>
+            <span class="category-card__name">OPPO</span>
+            <span class="category-card__count">12 sản phẩm</span>
+        </a>
+
+        <a href="/products/vivo" class="category-card" aria-label="Xem điện thoại vivo">
+            <div class="category-card__icon-wrap">
+                <img src="/images/brands/vivo.svg" alt="vivo" width="48" height="48" />
+            </div>
+            <span class="category-card__name">vivo</span>
+            <span class="category-card__count">9 sản phẩm</span>
+        </a>
+
+    </div>
+</section>
+
+<!-- =========================================================
+     SECTION 4 – BEST SELLERS
+     ========================================================= -->
+<section class="section" aria-labelledby="bestsellerHeading">
+    <div class="section__header">
+        <h2 class="section__title" id="bestsellerHeading">Bán chạy nhất</h2>
+        <a href="/products?sort=bestseller" class="section__link">Xem tất cả <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="bestsellers-list">
+
+        <!-- Bestseller Item 1 -->
+        <article class="bestseller-card">
+            <span class="bestseller-card__rank" aria-label="Hạng 1">#1</span>
+            <a href="/products/iphone-15" class="bestseller-card__image-link">
+                <img src="/images/products/iphone-15.png" alt="iPhone 15 128GB" loading="lazy" />
+            </a>
+            <div class="bestseller-card__info">
+                <p class="bestseller-card__brand">Apple</p>
+                <h3 class="bestseller-card__name">
+                    <a href="/products/iphone-15">iPhone 15 128GB</a>
+                </h3>
+                <p class="bestseller-card__sold">Đã bán 1.240+</p>
+            </div>
+            <div class="bestseller-card__right">
+                <span class="bestseller-card__price">22.990.000 ₫</span>
+                <button class="btn btn--cart btn--sm" data-product-id="5" aria-label="Thêm iPhone 15 vào giỏ">
+                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </article>
+
+        <!-- Bestseller Item 2 -->
+        <article class="bestseller-card">
+            <span class="bestseller-card__rank" aria-label="Hạng 2">#2</span>
+            <a href="/products/samsung-a55" class="bestseller-card__image-link">
+                <img src="/images/products/samsung-a55.png" alt="Samsung Galaxy A55 256GB" loading="lazy" />
+            </a>
+            <div class="bestseller-card__info">
+                <p class="bestseller-card__brand">Samsung</p>
+                <h3 class="bestseller-card__name">
+                    <a href="/products/samsung-a55">Galaxy A55 256GB</a>
+                </h3>
+                <p class="bestseller-card__sold">Đã bán 980+</p>
+            </div>
+            <div class="bestseller-card__right">
+                <span class="bestseller-card__price">9.990.000 ₫</span>
+                <button class="btn btn--cart btn--sm" data-product-id="6" aria-label="Thêm Samsung A55 vào giỏ">
+                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </article>
+
+        <!-- Bestseller Item 3 -->
+        <article class="bestseller-card">
+            <span class="bestseller-card__rank" aria-label="Hạng 3">#3</span>
+            <a href="/products/xiaomi-redmi-note-13" class="bestseller-card__image-link">
+                <img src="/images/products/redmi-note-13.png" alt="Redmi Note 13 Pro 256GB" loading="lazy" />
+            </a>
+            <div class="bestseller-card__info">
+                <p class="bestseller-card__brand">Xiaomi</p>
+                <h3 class="bestseller-card__name">
+                    <a href="/products/xiaomi-redmi-note-13">Redmi Note 13 Pro 256GB</a>
+                </h3>
+                <p class="bestseller-card__sold">Đã bán 874+</p>
+            </div>
+            <div class="bestseller-card__right">
+                <span class="bestseller-card__price">7.490.000 ₫</span>
+                <button class="btn btn--cart btn--sm" data-product-id="7" aria-label="Thêm Redmi Note 13 vào giỏ">
+                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </article>
+
+        <!-- Bestseller Item 4 -->
+        <article class="bestseller-card">
+            <span class="bestseller-card__rank" aria-label="Hạng 4">#4</span>
+            <a href="/products/samsung-s24-fe" class="bestseller-card__image-link">
+                <img src="/images/products/samsung-s24-fe.png" alt="Samsung Galaxy S24 FE 256GB" loading="lazy" />
+            </a>
+            <div class="bestseller-card__info">
+                <p class="bestseller-card__brand">Samsung</p>
+                <h3 class="bestseller-card__name">
+                    <a href="/products/samsung-s24-fe">Galaxy S24 FE 256GB</a>
+                </h3>
+                <p class="bestseller-card__sold">Đã bán 720+</p>
+            </div>
+            <div class="bestseller-card__right">
+                <span class="bestseller-card__price">12.990.000 ₫</span>
+                <button class="btn btn--cart btn--sm" data-product-id="8" aria-label="Thêm Galaxy S24 FE vào giỏ">
+                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<!-- =========================================================
+     TOAST NOTIFICATION (add to cart feedback)
+     ========================================================= -->
+<div class="toast" id="cartToast" role="alert" aria-live="polite" aria-atomic="true">
+    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+    <span id="cartToastMsg">Đã thêm sản phẩm vào giỏ hàng!</span>
+</div>
+
+<script src="~/js/home.js"></script>

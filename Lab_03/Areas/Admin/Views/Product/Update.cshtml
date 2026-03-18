@@ -1,0 +1,215 @@
+﻿@model Lab_03.Models.Product
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin-product-form.css" asp-append-version="true" />
+}
+
+<div class="product-form-page">
+    <form asp-area="Admin" asp-action="Update" method="post" enctype="multipart/form-data" id="editProductForm">
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Page Header -->
+        <header class="product-form-header">
+            <div class="product-form-header__left">
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="product-form-header__back" title="Quay lại">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div class="product-form-header__title">
+                    <h1>Chỉnh sửa sản phẩm</h1>
+                    <p>Cập nhật thông tin sản phẩm: @Model.Name</p>
+                </div>
+            </div>
+            <div class="product-form-header__actions">
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn-secondary">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Hủy</span>
+                </a>
+                <button type="submit" class="btn-primary">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Lưu thay đổi</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Form Grid -->
+        <div class="product-form__grid">
+            <!-- Main Column -->
+            <div class="product-form__main">
+                <!-- Basic Info Card -->
+                <div class="form-card">
+                    <div class="form-card__header">
+                        <i class="fa-solid fa-box"></i>
+                        <h2>Thông tin cơ bản</h2>
+                    </div>
+                    <div class="form-card__body">
+                        <div class="form-group">
+                            <label asp-for="Name" class="form-label">
+                                Tên sản phẩm <span class="required">*</span>
+                            </label>
+                            <input asp-for="Name" class="form-input" placeholder="Nhập tên sản phẩm..." />
+                            <span asp-validation-for="Name" class="form-error"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Price" class="form-label">
+                                    Giá bán <span class="required">*</span>
+                                </label>
+                                <div class="input-with-suffix">
+                                    <input asp-for="Price" class="form-input" placeholder="0" />
+                                    <span class="input-suffix">VND</span>
+                                </div>
+                                <span asp-validation-for="Price" class="form-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="CategoryId" class="form-label">
+                                    Danh mục <span class="required">*</span>
+                                </label>
+                                <div class="select-wrapper">
+                                    <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-select">
+                                        <option value="">-- Chọn danh mục --</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down select-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description Card -->
+                <div class="form-card">
+                    <div class="form-card__header">
+                        <i class="fa-solid fa-align-left"></i>
+                        <h2>Mô tả sản phẩm</h2>
+                    </div>
+                    <div class="form-card__body">
+                        <div class="form-group">
+                            <label asp-for="Description" class="form-label">Mô tả chi tiết</label>
+                            <textarea asp-for="Description" class="form-textarea" rows="6" placeholder="Nhập mô tả chi tiết về sản phẩm..."></textarea>
+                            <span asp-validation-for="Description" class="form-error"></span>
+                            <div class="form-hint">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span>Mô tả chi tiết giúp khách hàng hiểu rõ hơn về sản phẩm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Column -->
+            <div class="product-form__sidebar">
+                <!-- Image Upload Card -->
+                <div class="form-card">
+                    <div class="form-card__header">
+                        <i class="fa-solid fa-image"></i>
+                        <h2>Hình ảnh sản phẩm</h2>
+                    </div>
+                    <div class="form-card__body">
+                        <div class="image-upload" id="imageUploadArea">
+                            <input type="file" name="imageUrl" class="image-upload__input" id="imageInput" accept="image/*" />
+
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <!-- Preview with existing image -->
+                                <div class="image-upload__preview" id="imagePreview">
+                                    <img src="@Model.ImageUrl" alt="@Model.Name" id="previewImage" />
+                                    <div class="image-upload__overlay">
+                                        <button type="button" class="image-upload__remove" id="removeImageBtn">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Xóa
+                                        </button>
+                                        <label for="imageInput" class="image-upload__change">
+                                            <i class="fa-solid fa-rotate"></i>
+                                            Đổi ảnh
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Hidden placeholder -->
+                                <div class="image-upload__placeholder d-none" id="uploadPlaceholder">
+                                    <div class="image-upload__icon">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    </div>
+                                    <p class="image-upload__text">Kéo thả hình ảnh vào đây hoặc</p>
+                                    <label for="imageInput" class="image-upload__btn">
+                                        <i class="fa-solid fa-folder-open"></i>
+                                        Chọn từ máy tính
+                                    </label>
+                                    <p class="image-upload__hint">PNG, JPG, WEBP (Tối đa 5MB)</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <!-- Placeholder visible by default -->
+                                <div class="image-upload__placeholder" id="uploadPlaceholder">
+                                    <div class="image-upload__icon">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    </div>
+                                    <p class="image-upload__text">Kéo thả hình ảnh vào đây hoặc</p>
+                                    <label for="imageInput" class="image-upload__btn">
+                                        <i class="fa-solid fa-folder-open"></i>
+                                        Chọn từ máy tính
+                                    </label>
+                                    <p class="image-upload__hint">PNG, JPG, WEBP (Tối đa 5MB)</p>
+                                </div>
+                                <!-- Hidden preview -->
+                                <div class="image-upload__preview d-none" id="imagePreview">
+                                    <img src="" alt="Preview" id="previewImage" />
+                                    <div class="image-upload__overlay">
+                                        <button type="button" class="image-upload__remove" id="removeImageBtn">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Xóa
+                                        </button>
+                                        <label for="imageInput" class="image-upload__change">
+                                            <i class="fa-solid fa-rotate"></i>
+                                            Đổi ảnh
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <input type="hidden" name="existingImageUrl" value="@Model.ImageUrl" />
+                    </div>
+                </div>
+
+                <!-- Tips Card -->
+                <div class="form-card form-card--tips">
+                    <div class="form-card__header">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <h2>Lưu ý khi chỉnh sửa</h2>
+                    </div>
+                    <div class="form-card__body">
+                        <ul class="tips-list">
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                <span>Kiểm tra kỹ thông tin trước khi lưu</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                <span>Chỉ upload ảnh mới nếu muốn thay đổi</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                <span>Giá bán sẽ được cập nhật ngay lập tức</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                <span>Nhấn "Hủy" để quay lại mà không lưu</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/admin-product-form.js" asp-append-version="true"></script>
+}

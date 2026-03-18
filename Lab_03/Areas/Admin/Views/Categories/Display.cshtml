@@ -1,0 +1,24 @@
+﻿@model Lab_03.Models.Category
+
+<h2>Category: @Model.Name</h2>
+
+<div>
+    <p><strong>Products in this category:</strong></p>
+    @if (Model.Products != null && Model.Products.Any())
+    {
+        <ul>
+            @foreach (var p in Model.Products)
+            {
+                <li>@p.Name (@p.Price.ToString("C"))</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No products in this category.</p>
+    }
+</div>
+
+<br />
+
+<a asp-action="Index">Back to List</a>
