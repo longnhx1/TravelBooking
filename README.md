@@ -1,21 +1,33 @@
 # ✈️ TravelBooking
 
-Ứng dụng web đặt tour du lịch xây dựng bằng **ASP.NET MVC** trên Visual Studio 2022, sử dụng Entity Framework Code First, ASP.NET Identity và SQL Server LocalDB.
+Ứng dụng web đặt tour du lịch xây dựng bằng **ASP.NET Core MVC**, sử dụng Entity Framework Core (Code First), ASP.NET Core Identity và SQL Server.
+
+> 📖 Hướng dẫn setup dựa theo **Giáo trình Thực hành Lập trình Web - HUTECH (ấn bản 2024)**
 
 ---
 
 ## 📋 Yêu cầu hệ thống
 
-Trước khi clone project, hãy đảm bảo máy đã cài đầy đủ:
-
-| Công cụ | Phiên bản khuyến nghị |
+| Công cụ | Phiên bản |
 |---|---|
 | Visual Studio | 2022 (Community / Professional) |
-| .NET Framework / .NET | Theo cấu hình project |
-| SQL Server LocalDB | Đi kèm Visual Studio |
+| .NET | 8.0 |
+| SQL Server Express | 2019 hoặc 2022 |
 | Git | Bất kỳ |
 
-> **Lưu ý:** SQL Server LocalDB thường được cài tự động cùng Visual Studio. Kiểm tra bằng cách chạy `sqllocaldb info` trong Command Prompt.
+---
+
+## 📦 NuGet Packages sử dụng
+
+Các package đã được cài sẵn trong project (không cần cài lại thủ công). Để kiểm tra, vào **Tools → NuGet Package Manager → Manage NuGet Packages for Solution**:
+
+| Package | Phiên bản |
+|---|---|
+| `Microsoft.EntityFrameworkCore` | 8.0.3 |
+| `Microsoft.EntityFrameworkCore.SqlServer` | 8.0.3 |
+| `Microsoft.EntityFrameworkCore.Tools` | 8.0.3 |
+| `Microsoft.AspNetCore.Identity.EntityFrameworkCore` | 8.0.3 |
+| `Microsoft.AspNetCore.Identity.UI` | 8.0.3 |
 
 ---
 
@@ -30,71 +42,72 @@ cd TravelBooking
 
 ### Bước 2 — Mở project trong Visual Studio
 
-1. Mở file **`TravelBooking.sln`** bằng Visual Studio.
-2. Chờ Visual Studio restore NuGet packages tự động.
-3. Nếu không tự restore, vào **Tools → NuGet Package Manager → Package Manager Console** và chạy:
-
-```powershell
-Update-Package -reinstall
-```
+1. Mở file **`TravelBooking.sln`** bằng Visual Studio 2022.
+2. Chờ Visual Studio tự động restore NuGet packages.
+3. Nếu không tự restore, click chuột phải vào **Solution → Restore NuGet Packages**.
 
 ### Bước 3 — Kiểm tra Connection String
 
-Mở file **`Web.config`** (hoặc `appsettings.json` nếu dùng .NET Core), tìm phần `connectionStrings`:
+Mở file **`appsettings.json`**, kiểm tra phần `ConnectionStrings`:
 
-```xml
-<connectionStrings>
-  <add name="DefaultConnection"
-       connectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\TravelBooking.mdf;Integrated Security=True"
-       providerName="System.Data.SqlClient" />
-</connectionStrings>
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=Lab03;Trusted_Connection=True;TrustServerCertificate=True"
+  }
+}
 ```
 
-> ⚠️ Thông thường không cần chỉnh sửa. Nếu gặp lỗi kết nối, kiểm tra tên instance LocalDB bằng lệnh `sqllocaldb info`.
+> ⚠️ **Quan trọng:** Thay `Server=` bằng đúng tên Server name trên máy bạn.  
+> Cách xem Server name: Mở **SQL Server Management Studio (SSMS)** → tên hiển thị ở ô *Server name* khi kết nối chính là giá trị cần điền.
 
-### Bước 4 — Tạo Database bằng Migration
+**Ví dụ một số tên phổ biến:**
 
-Mở **Package Manager Console** (Tools → NuGet Package Manager → Package Manager Console), đảm bảo **Default project** đang chọn đúng project chính, sau đó chạy:
+| Trường hợp | Server name |
+|---|---|
+| Mặc định khi cài Express | `localhost\SQLEXPRESS` |
+| Tên máy tính | `DESKTOP-XXXXX\SQLEXPRESS` |
+| LocalDB | `(LocalDB)\MSSQLLocalDB` |
+
+### Bước 4 — Tạo Migration và Database
+
+Mở **Package Manager Console**: **Tools → NuGet Package Manager → Package Manager Console**
+
+Đảm bảo **Default project** đang chọn đúng project chính, sau đó chạy lần lượt:
 
 ```powershell
-# Cập nhật database theo migrations hiện có
+# Tạo migration (nếu chưa có)
+Add-Migration Initial
+
+# Tạo database và áp dụng migration
 Update-Database
 ```
 
-Nếu thấy thông báo `Running Seed method` hoặc `Done` là thành công ✅
+Nếu project đã có sẵn migration, chỉ cần chạy:
 
-> **Nếu gặp lỗi migration**, thử xóa database cũ rồi tạo lại:
-> ```powershell
-> Drop-Database
-> Update-Database
-> ```
+```powershell
+Update-Database
+```
+
+Sau khi chạy xong, database **`Lab03`** sẽ được tạo tự động trên SQL Server.  
+Mở SSMS để kiểm tra: database `Lab03` xuất hiện là thành công ✅
 
 ### Bước 5 — Chạy ứng dụng
 
-Nhấn **F5** hoặc **Ctrl + F5** để chạy project.
+Nhấn **F5** hoặc **Ctrl + F5** để build và chạy project.
 
-Ứng dụng sẽ mở trên trình duyệt tại địa chỉ dạng: `https://localhost:xxxx`
-
----
-
-## 👤 Tài khoản mặc định (nếu có Seed data)
-
-| Role | Email | Mật khẩu |
-|---|---|---|
-| Admin | admin@travelbooking.com | `Admin@123` |
-| User | user@travelbooking.com | `User@123` |
-
-> Kiểm tra file `Migrations/Configuration.cs` hoặc `DbInitializer.cs` để xem tài khoản seed chính xác.
+Ứng dụng sẽ tự mở trên trình duyệt tại địa chỉ dạng: `https://localhost:xxxx`
 
 ---
 
 ## 🛠️ Công nghệ sử dụng
 
-- **ASP.NET MVC 5** — Framework chính
-- **Entity Framework 6** (Code First) — ORM, quản lý database
-- **ASP.NET Identity** — Xác thực và phân quyền người dùng
+- **ASP.NET Core MVC 8** — Framework chính
+- **Entity Framework Core 8** (Code First) — ORM, quản lý database
+- **ASP.NET Core Identity** — Đăng ký, đăng nhập, phân quyền người dùng
 - **LINQ** — Truy vấn dữ liệu
-- **SQL Server LocalDB** — Database phát triển cục bộ
+- **SQL Server Express** — Database
+- **Razor Pages** — Giao diện Identity (Login, Register)
 - **Bootstrap** — Giao diện người dùng
 
 ---
@@ -103,35 +116,48 @@ Nhấn **F5** hoặc **Ctrl + F5** để chạy project.
 
 ```
 TravelBooking/
-├── Controllers/        # Xử lý request, điều hướng
-├── Models/             # Entity, ViewModel, DbContext
-│   └── Migrations/     # EF Migration files
-├── Views/              # Giao diện Razor (.cshtml)
-├── App_Data/           # Chứa file .mdf (database LocalDB)
-├── App_Start/          # Cấu hình Route, Identity, Bundle
-├── Content/            # CSS, hình ảnh tĩnh
-├── Scripts/            # JavaScript, jQuery
-└── Web.config          # Cấu hình ứng dụng
+├── Areas/
+│   └── Identity/             # Trang Login, Register (Scaffolded)
+├── Controllers/              # Xử lý request, điều hướng
+├── Models/
+│   ├── ApplicationDbContext.cs   # DbContext kế thừa IdentityDbContext
+│   ├── ApplicationUser.cs        # Mở rộng IdentityUser (FullName, Address,...)
+│   └── Migrations/               # EF Migration files
+├── Repositories/             # Interface và EF Repository
+├── Views/                    # Giao diện Razor (.cshtml)
+├── wwwroot/                  # CSS, JS, hình ảnh tĩnh
+├── appsettings.json          # Cấu hình app và connection string
+└── Program.cs                # Cấu hình DI, Identity, Middleware
 ```
 
 ---
 
 ## ❓ Xử lý lỗi thường gặp
 
-**Lỗi: `Cannot attach the file ... .mdf`**
-- Xóa file `.mdf` và `.ldf` trong thư mục `App_Data/` rồi chạy lại `Update-Database`.
+**Lỗi: `A network-related or instance-specific error`**
+- SQL Server chưa chạy → Mở **Services** (Win + R → `services.msc`) → tìm **SQL Server (SQLEXPRESS)** → **Start**.
+- Hoặc tên Server name trong `appsettings.json` chưa đúng → Mở SSMS để kiểm tra lại.
+
+**Lỗi: `There is already an object named '...' in the database`**
+- Database đang bị lệch migration. Xóa database trong SSMS rồi chạy lại `Update-Database`.
 
 **Lỗi: `The model backing the context has changed`**
-- Chạy `Update-Database` trong Package Manager Console.
+- Chạy lại `Update-Database` trong Package Manager Console.
 
-**Lỗi: NuGet packages missing**
-- Chuột phải vào Solution → **Restore NuGet Packages**.
+**Lỗi: NuGet packages bị thiếu**
+- Click chuột phải vào Solution → **Restore NuGet Packages**.
 
 **Lỗi: Port bị chiếm**
-- Vào **Project Properties → Web** và đổi sang port khác.
+- Mở `Properties/launchSettings.json` và đổi số port sang giá trị khác.
 
 ---
 
+## 👥 Thành viên nhóm
+
+| Tên | MSSV | Vai trò |
+|---|---|---|
+|  |  |  |
+|  |  |  |
 
 ---
 
