@@ -1,59 +1,63 @@
 @model IEnumerable<Lab_03.Models.Product>
 
 @{
-    ViewData["Title"] = "Quan ly San pham";
+    ViewData["Title"] = "Quản lý Tour Du Lịch";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/admin-product-list.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/product/admin-product-list.css" asp-append-version="true" />
 }
 
 <div class="product-list-page">
     <!-- Page Header -->
     <header class="product-list-header">
         <div class="product-list-header__left">
-            <h1>Quan ly San pham</h1>
-            <p>@Model.Count() san pham trong he thong</p>
+            <h1>
+                <i class="fa-solid fa-map-location-dot" style="color:var(--list-accent);margin-right:.5rem;"></i>
+                Quản lý Tour Du Lịch
+            </h1>
+            <p>@Model.Count() tour trong hệ thống</p>
         </div>
         <div class="product-list-header__right">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Tim kiem san pham..." />
+                <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên tour..." />
             </div>
             <a asp-area="Admin" asp-controller="Product" asp-action="Add" class="btn-primary">
                 <i class="fa-solid fa-plus"></i>
-                <span>Them san pham</span>
+                <span>Thêm Tour mới</span>
             </a>
         </div>
     </header>
 
-    <!-- Product Table -->
+    <!-- Tour Table -->
     <div class="product-table-card">
         <div class="table-responsive">
             <table class="product-table" id="productTable">
                 <thead>
                     <tr>
-                        <th class="th-image">Hinh anh</th>
-                        <th class="th-name">Ten san pham</th>
-                        <th class="th-category">Danh muc</th>
-                        <th class="th-price">Gia</th>
-                        <th class="th-desc">Mo ta</th>
-                        <th class="th-actions">Thao tac</th>
+                        <th class="th-image">Ảnh Tour</th>
+                        <th class="th-name">Tên Tour</th>
+                        <th class="th-category">Điểm đến</th>
+                        <th class="th-price">Giá / Người</th>
+                        <th class="th-departure">Khởi hành</th>
+                        <th class="th-seats">Chỗ trống</th>
+                        <th class="th-actions">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (!Model.Any())
                     {
                         <tr class="empty-row">
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="empty-state">
-                                    <i class="fa-solid fa-box-open"></i>
-                                    <h3>Chua co san pham nao</h3>
-                                    <p>Bat dau bang cach them san pham dau tien</p>
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    <h3>Chưa có Tour nào</h3>
+                                    <p>Bắt đầu bằng cách thêm tour du lịch đầu tiên</p>
                                     <a asp-area="Admin" asp-controller="Product" asp-action="Add" class="btn-primary">
                                         <i class="fa-solid fa-plus"></i>
-                                        Them san pham moi
+                                        Thêm Tour mới
                                     </a>
                                 </div>
                             </td>
@@ -61,14 +65,15 @@
                     }
                     else
                     {
-                        @foreach (var product in Model)
+                        @foreach (var tour in Model)
                         {
-                            <tr class="product-row" data-product-name="@product.Name.ToLower()">
+                            <tr class="product-row" data-product-name="@tour.Name.ToLower()">
+                                <!-- Ảnh -->
                                 <td class="td-image">
-                                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                    @if (!string.IsNullOrEmpty(tour.ImageUrl))
                                     {
                                         <div class="product-thumb">
-                                            <img src="@product.ImageUrl" alt="@product.Name" />
+                                            <img src="@tour.ImageUrl" alt="@tour.Name" />
                                         </div>
                                     }
                                     else
@@ -78,31 +83,96 @@
                                         </div>
                                     }
                                 </td>
+
+                                <!-- Tên Tour + Thời gian -->
                                 <td class="td-name">
-                                    <span class="product-name">@product.Name</span>
+                                    <span class="product-name">@tour.Name</span>
+                                    @if (!string.IsNullOrEmpty(tour.Duration))
+                                    {
+                                        <span class="tour-duration-badge">
+                                            <i class="fa-regular fa-clock"></i> @tour.Duration
+                                        </span>
+                                    }
                                 </td>
+
+                                <!-- Điểm đến (Category) -->
                                 <td class="td-category">
                                     <span class="category-badge">
-                                        @(product.Category?.Name ?? "Chua phan loai")
+                                        @(tour.Category?.Name ?? "Chưa phân loại")
                                     </span>
                                 </td>
+
+                                <!-- Giá -->
                                 <td class="td-price">
-                                    <span class="price-text">@string.Format("{0:#,##0}", product.Price) VND</span>
+                                    <span class="price-text">@string.Format("{0:#,##0}", tour.Price) ₫</span>
                                 </td>
-                                <td class="td-desc">
-                                    <span class="desc-text" title="@product.Description">
-                                        @(product.Description?.Length > 60 ? product.Description.Substring(0, 60) + "..." : product.Description ?? "—")
-                                    </span>
+
+                                <!-- Ngày + Nơi khởi hành -->
+                                <td class="td-departure">
+                                    @if (tour.DepartureDate.HasValue)
+                                    {
+                                        <span class="departure-date">
+                                            <i class="fa-solid fa-calendar-day"></i>
+                                            @tour.DepartureDate.Value.ToString("dd/MM/yyyy")
+                                        </span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(tour.DepartureLocation))
+                                    {
+                                        <span class="departure-location">
+                                            <i class="fa-solid fa-location-dot"></i> @tour.DepartureLocation
+                                        </span>
+                                    }
+                                    @if (!tour.DepartureDate.HasValue && string.IsNullOrEmpty(tour.DepartureLocation))
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
                                 </td>
+
+                                <!-- Số chỗ trống -->
+                                <td class="td-seats">
+                                    @if (tour.AvailableSeats.HasValue)
+                                    {
+                                        <span class="seats-badge @(tour.AvailableSeats.Value == 0 ? "seats-badge--full" : tour.AvailableSeats.Value <= 5 ? "seats-badge--low" : "seats-badge--ok")">
+                                            @if (tour.AvailableSeats.Value == 0)
+                                            {
+                                                <i class="fa-solid fa-ban"></i> <text>Hết chỗ</text>
+                                            }
+                                            else if (tour.AvailableSeats.Value <= 5)
+                                            {
+                                                <i class="fa-solid fa-fire"></i> <text>Còn @tour.AvailableSeats chỗ</text>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa-solid fa-circle-check"></i> <text>@tour.AvailableSeats chỗ</text>
+                                            }
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+
+                                <!-- Thao tác -->
                                 <td class="td-actions">
                                     <div class="action-buttons">
-                                        <a asp-area="Admin" asp-controller="Product" asp-action="Display" asp-route-id="@product.Id" class="action-btn action-btn--view" title="Xem chi tiet">
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Display"
+                                           asp-route-id="@tour.Id"
+                                           class="action-btn action-btn--view"
+                                           title="Xem chi tiết">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
-                                        <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@product.Id" class="action-btn action-btn--edit" title="Chinh sua">
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Update"
+                                           asp-route-id="@tour.Id"
+                                           class="action-btn action-btn--edit"
+                                           title="Chỉnh sửa">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
-                                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="action-btn action-btn--delete" title="Xoa san pham" data-product-name="@product.Name">
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="Delete"
+                                           asp-route-id="@tour.Id"
+                                           class="action-btn action-btn--delete"
+                                           title="Xóa tour"
+                                           data-product-name="@tour.Name">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     </div>
@@ -117,5 +187,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/admin-product-list.js" asp-append-version="true"></script>
+    <script src="~/js/product/admin-product-list.js" asp-append-version="true"></script>
 }

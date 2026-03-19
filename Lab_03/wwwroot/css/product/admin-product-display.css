@@ -1,5 +1,5 @@
-﻿/* ============================================================================
-   ADMIN PRODUCT DISPLAY STYLES
+/* ============================================================================
+   ADMIN PRODUCT DISPLAY STYLES – Travel Booking Edition
    Water element palette: white, light gray, silver, soft gray + steel-blue accent
    ============================================================================ */
 
@@ -14,6 +14,7 @@
     --display-accent-light: rgba(0, 113, 227, 0.08);
     --display-danger: #ff3b30;
     --display-danger-hover: #e5342a;
+    --display-warning: #ff9500;
     --display-success: #34c759;
     --display-radius: 12px;
     --display-radius-sm: 8px;
@@ -134,7 +135,7 @@
 /* Grid Layout */
 .product-display__grid {
     display: grid;
-    grid-template-columns: 480px 1fr;
+    grid-template-columns: 420px 1fr;
     gap: 2rem;
     align-items: start;
 }
@@ -152,42 +153,43 @@
 
 .product-image-wrapper {
     position: relative;
-    aspect-ratio: 1;
+    aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--display-bg);
-    padding: 2rem;
+    overflow: hidden;
 }
 
 .product-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    border-radius: var(--display-radius-sm);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
     transition: transform 0.3s ease;
 }
 
 .product-image-wrapper:hover .product-image {
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
 .image-zoom-btn {
     position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
+    bottom: 1rem;
+    right: 1rem;
     width: 44px;
     height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--display-card-bg);
+    background: rgba(255,255,255,0.9);
     border: 1px solid var(--display-border);
     border-radius: var(--display-radius-sm);
     color: var(--display-text-secondary);
     cursor: pointer;
     transition: var(--display-transition);
     box-shadow: var(--display-shadow);
+    backdrop-filter: blur(4px);
 }
 
     .image-zoom-btn:hover {
@@ -203,6 +205,7 @@
     justify-content: center;
     gap: 1rem;
     color: var(--display-text-secondary);
+    padding: 3rem;
 }
 
     .product-no-image i {
@@ -241,6 +244,7 @@
 .info-card__badge {
     display: inline-flex;
     align-items: center;
+    gap: 0.4rem;
     padding: 0.375rem 0.875rem;
     background: var(--display-accent-light);
     color: var(--display-accent);
@@ -255,7 +259,7 @@
 }
 
 .info-card__title {
-    font-size: 1.75rem;
+    font-size: 1.625rem;
     font-weight: 600;
     color: var(--display-text);
     margin: 0 0 1.25rem 0;
@@ -282,10 +286,6 @@
     color: var(--display-accent);
 }
 
-.info-card__section {
-    /* Section wrapper */
-}
-
 .info-card__section-title {
     display: flex;
     align-items: center;
@@ -303,8 +303,9 @@
 
 .info-card__description {
     font-size: 0.9375rem;
-    line-height: 1.7;
+    line-height: 1.75;
     color: var(--display-text-secondary);
+    white-space: pre-line;
 }
 
     .info-card__description p {
@@ -314,6 +315,58 @@
 .text-muted {
     opacity: 0.6;
     font-style: italic;
+}
+
+/* ============================================================
+   TOUR META GRID (new for Travel Booking)
+   ============================================================ */
+.tour-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.875rem;
+}
+
+.tour-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.875rem 1rem;
+    background: var(--display-bg);
+    border: 1px solid var(--display-border);
+    border-radius: var(--display-radius-sm);
+}
+
+.tour-meta-item__label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--display-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+    .tour-meta-item__label i {
+        color: var(--display-accent);
+        font-size: 0.75rem;
+    }
+
+.tour-meta-item__value {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--display-text);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.value--danger {
+    color: var(--display-danger) !important;
+}
+
+.value--warning {
+    color: var(--display-warning) !important;
 }
 
 /* Quick Actions */
@@ -409,6 +462,117 @@
     transform: scale(1);
 }
 
+/* ============================================================
+   DELETE CONFIRM PAGE (new for Travel Booking)
+   ============================================================ */
+.delete-confirm-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.delete-confirm-card {
+    background: var(--display-card-bg);
+    border: 1px solid var(--display-border);
+    border-radius: var(--display-radius);
+    box-shadow: var(--display-shadow-hover);
+    padding: 2.5rem;
+    max-width: 560px;
+    width: 100%;
+    text-align: center;
+}
+
+.delete-confirm__icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255, 59, 48, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.75rem;
+    color: var(--display-danger);
+}
+
+.delete-confirm__title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--display-text);
+    margin: 0 0 0.75rem;
+}
+
+.delete-confirm__subtitle {
+    font-size: 0.9375rem;
+    color: var(--display-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 2rem;
+}
+
+/* Tour preview inside delete card */
+.delete-confirm__tour-preview {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background: var(--display-bg);
+    border: 1px solid var(--display-border);
+    border-radius: var(--display-radius-sm);
+    padding: 1.125rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.delete-confirm__tour-image {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--display-radius-sm);
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--display-border);
+}
+
+.delete-confirm__tour-image--empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8e8ed;
+    color: #c7c7cc;
+    font-size: 1.5rem;
+}
+
+.delete-confirm__tour-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--display-text);
+    margin: 0 0 0.5rem;
+}
+
+.delete-confirm__tour-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.875rem;
+}
+
+    .delete-confirm__tour-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.8125rem;
+        color: var(--display-text-secondary);
+    }
+
+    .delete-confirm__tour-meta i {
+        font-size: 0.75rem;
+        color: var(--display-accent);
+    }
+
+.delete-confirm__actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .product-display__grid {
@@ -420,12 +584,16 @@
     }
 
     .product-image-wrapper {
-        max-height: 400px;
+        max-height: 360px;
     }
 
     .product-display-header {
         margin: -1.5rem -1.5rem 1.5rem -1.5rem;
         padding: 1rem 1.5rem;
+    }
+
+    .tour-meta-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -454,7 +622,7 @@
     }
 
     .info-card__title {
-        font-size: 1.375rem;
+        font-size: 1.25rem;
     }
 
     .price-value {
@@ -465,7 +633,26 @@
         padding: 1.25rem;
     }
 
-    .product-image-wrapper {
+    .delete-confirm-card {
         padding: 1.5rem;
+    }
+
+    .delete-confirm__actions {
+        flex-direction: column;
+    }
+
+        .delete-confirm__actions .btn-secondary,
+        .delete-confirm__actions .btn-danger {
+            width: 100%;
+            justify-content: center;
+        }
+
+    .delete-confirm__tour-preview {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .delete-confirm__tour-meta {
+        justify-content: center;
     }
 }

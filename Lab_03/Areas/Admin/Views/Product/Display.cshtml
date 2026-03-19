@@ -4,20 +4,20 @@
     ViewData["Title"] = Model.Name;
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-<a href="d:\_code\ltw\lab_03\lab_03\areas\admin\views\product\display.cshtml"></a>
+
 @section Styles {
-    <link rel="stylesheet" href="~/css/admin-product-display.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/product/admin-product-display.css" asp-append-version="true" />
 }
 
 <div class="product-display-page">
     <!-- Page Header -->
     <header class="product-display-header">
         <div class="product-display-header__left">
-            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="product-display-header__back" title="Quay lại">
+            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="product-display-header__back" title="Quay lại danh sách">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <nav class="product-display-header__breadcrumb">
-                <a asp-area="Admin" asp-controller="Product" asp-action="Index">Sản phẩm</a>
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index">Quản lý Tour</a>
                 <i class="fa-solid fa-chevron-right"></i>
                 <span>@Model.Name</span>
             </nav>
@@ -34,9 +34,10 @@
         </div>
     </header>
 
-    <!-- Product Content -->
+    <!-- Content Grid -->
     <div class="product-display__grid">
-        <!-- Image Section -->
+
+        <!-- Ảnh Tour -->
         <div class="product-display__image-card">
             <div class="product-image-wrapper">
                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
@@ -50,35 +51,97 @@
                 {
                     <div class="product-no-image">
                         <i class="fa-solid fa-image"></i>
-                        <p>Chưa có hình ảnh</p>
+                        <p>Chưa có ảnh đại diện</p>
                     </div>
                 }
             </div>
         </div>
 
-        <!-- Info Section -->
+        <!-- Thông tin Tour -->
         <div class="product-display__info">
-            <!-- Basic Info Card -->
+
+            <!-- Card: Tổng quan -->
             <div class="info-card">
                 <div class="info-card__header">
                     <span class="info-card__badge">
+                        <i class="fa-solid fa-location-dot"></i>
                         @(Model.Category?.Name ?? "Chưa phân loại")
                     </span>
                     <span class="info-card__id">ID: #@Model.Id</span>
                 </div>
                 <h1 class="info-card__title">@Model.Name</h1>
                 <div class="info-card__price">
-                    <span class="price-label">Giá bán:</span>
-                    <span class="price-value">@Model.Price.ToString("N0") VND</span>
+                    <span class="price-label">Giá / Người:</span>
+                    <span class="price-value">@Model.Price.ToString("N0") ₫</span>
                 </div>
             </div>
 
-            <!-- Description Card -->
+            <!-- Card: Thông tin chuyến đi -->
+            <div class="info-card">
+                <div class="info-card__section">
+                    <h3 class="info-card__section-title">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Thông tin chuyến đi
+                    </h3>
+                    <div class="tour-meta-grid">
+                        <div class="tour-meta-item">
+                            <span class="tour-meta-item__label">
+                                <i class="fa-regular fa-clock"></i> Thời gian
+                            </span>
+                            <span class="tour-meta-item__value">
+                                @(string.IsNullOrEmpty(Model.Duration) ? "Chưa cập nhật" : Model.Duration)
+                            </span>
+                        </div>
+                        <div class="tour-meta-item">
+                            <span class="tour-meta-item__label">
+                                <i class="fa-solid fa-location-dot"></i> Nơi khởi hành
+                            </span>
+                            <span class="tour-meta-item__value">
+                                @(string.IsNullOrEmpty(Model.DepartureLocation) ? "Chưa cập nhật" : Model.DepartureLocation)
+                            </span>
+                        </div>
+                        <div class="tour-meta-item">
+                            <span class="tour-meta-item__label">
+                                <i class="fa-solid fa-calendar-day"></i> Ngày khởi hành
+                            </span>
+                            <span class="tour-meta-item__value">
+                                @(Model.DepartureDate.HasValue
+                                    ? Model.DepartureDate.Value.ToString("HH:mm – dd/MM/yyyy")
+                                    : "Chưa cập nhật")
+                            </span>
+                        </div>
+                        <div class="tour-meta-item">
+                            <span class="tour-meta-item__label">
+                                <i class="fa-solid fa-users"></i> Chỗ trống
+                            </span>
+                            <span class="tour-meta-item__value @(Model.AvailableSeats.HasValue && Model.AvailableSeats.Value == 0 ? "value--danger" : Model.AvailableSeats.HasValue && Model.AvailableSeats.Value <= 5 ? "value--warning" : "")">
+                                @if (Model.AvailableSeats.HasValue)
+                                {
+                                    if (Model.AvailableSeats.Value == 0)
+                                    {
+                                        <i class="fa-solid fa-ban"></i> <text>Hết chỗ</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@Model.AvailableSeats chỗ còn trống</text>
+                                    }
+                                }
+                                else
+                                {
+                                    <text>Chưa cập nhật</text>
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card: Lịch trình & Mô tả -->
             <div class="info-card">
                 <div class="info-card__section">
                     <h3 class="info-card__section-title">
                         <i class="fa-solid fa-align-left"></i>
-                        Mô tả sản phẩm
+                        Lịch trình & Mô tả
                     </h3>
                     <div class="info-card__description">
                         @if (!string.IsNullOrEmpty(Model.Description))
@@ -87,13 +150,13 @@
                         }
                         else
                         {
-                            <p class="text-muted">Chưa có mô tả cho sản phẩm này.</p>
+                            <p class="text-muted">Chưa có lịch trình cho tour này.</p>
                         }
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Actions Card -->
+            <!-- Card: Thao tác nhanh -->
             <div class="info-card info-card--actions">
                 <h3 class="info-card__section-title">
                     <i class="fa-solid fa-bolt"></i>
@@ -102,18 +165,20 @@
                 <div class="quick-actions">
                     <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@Model.Id" class="quick-action-btn">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        <span>Chỉnh sửa thông tin</span>
+                        <span>Chỉnh sửa thông tin Tour</span>
                     </a>
-                    <button type="button" class="quick-action-btn" id="copyLinkBtn" data-url="@Url.Action("Display", "Product", new { area = "Admin", id = Model.Id })">
+                    <button type="button" class="quick-action-btn" id="copyLinkBtn"
+                            data-url="@Url.Action("Display", "Product", new { area = "Admin", id = Model.Id })">
                         <i class="fa-solid fa-link"></i>
                         <span>Sao chép liên kết</span>
                     </button>
                     <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="quick-action-btn">
                         <i class="fa-solid fa-list"></i>
-                        <span>Xem danh sách</span>
+                        <span>Xem danh sách Tour</span>
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -127,5 +192,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/admin-product-display.js" asp-append-version="true"></script>
+    <script src="~/js/product/admin-product-display.js" asp-append-version="true"></script>
 }

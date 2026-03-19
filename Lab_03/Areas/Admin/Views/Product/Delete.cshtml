@@ -1,22 +1,99 @@
-﻿@model Lab_03.Models.Product
+@model Lab_03.Models.Product
 
-<h2>Delete Product</h2>
+@{
+    ViewData["Title"] = "Xác nhận xóa Tour";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
 
-<form asp-action="DeleteConfirmed" method="post">
+@section Styles {
+    <link rel="stylesheet" href="~/css/product/admin-product-display.css" asp-append-version="true" />
+}
 
-    <input type="hidden" asp-for="Id" />
+<div class="product-display-page">
+    <!-- Page Header -->
+    <header class="product-display-header">
+        <div class="product-display-header__left">
+            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="product-display-header__back" title="Quay lại">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <nav class="product-display-header__breadcrumb">
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index">Quản lý Tour</a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span>Xóa Tour</span>
+            </nav>
+        </div>
+    </header>
 
-    <p>
-        Are you sure you want to delete
-        <strong>@Model.Name</strong> ?
-    </p>
+    <!-- Delete Confirmation Card -->
+    <div class="delete-confirm-wrapper">
+        <div class="delete-confirm-card">
 
-    <button type="submit" class="btn btn-danger">
-        Delete
-    </button>
+            <!-- Warning Icon -->
+            <div class="delete-confirm__icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
 
-    <a asp-action="Index" class="btn btn-secondary">
-        Cancel
-    </a>
+            <h2 class="delete-confirm__title">Xác nhận xóa Tour</h2>
+            <p class="delete-confirm__subtitle">
+                Hành động này <strong>không thể hoàn tác</strong>. Tour sẽ bị xóa vĩnh viễn khỏi hệ thống.
+            </p>
 
-</form>
+            <!-- Tour Preview -->
+            <div class="delete-confirm__tour-preview">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="@Model.Name" class="delete-confirm__tour-image" />
+                }
+                else
+                {
+                    <div class="delete-confirm__tour-image delete-confirm__tour-image--empty">
+                        <i class="fa-solid fa-image"></i>
+                    </div>
+                }
+                <div class="delete-confirm__tour-info">
+                    <h3 class="delete-confirm__tour-name">@Model.Name</h3>
+                    <div class="delete-confirm__tour-meta">
+                        @if (Model.Category != null)
+                        {
+                            <span><i class="fa-solid fa-location-dot"></i> @Model.Category.Name</span>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Duration))
+                        {
+                            <span><i class="fa-regular fa-clock"></i> @Model.Duration</span>
+                        }
+                        <span><i class="fa-solid fa-tag"></i> @Model.Price.ToString("N0") ₫ / người</span>
+                        @if (!string.IsNullOrEmpty(Model.DepartureLocation))
+                        {
+                            <span><i class="fa-solid fa-plane-departure"></i> @Model.DepartureLocation</span>
+                        }
+                        @if (Model.DepartureDate.HasValue)
+                        {
+                            <span><i class="fa-solid fa-calendar-day"></i> @Model.DepartureDate.Value.ToString("dd/MM/yyyy")</span>
+                        }
+                        @if (Model.AvailableSeats.HasValue)
+                        {
+                            <span><i class="fa-solid fa-users"></i> @Model.AvailableSeats chỗ trống</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="delete-confirm__actions">
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Không, quay lại</span>
+                </a>
+                <form asp-area="Admin" asp-action="DeleteConfirmed" method="post" style="display:inline;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn-danger">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Xóa vĩnh viễn</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
