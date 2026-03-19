@@ -1,134 +1,237 @@
-﻿@{
+@{
     ViewData["Title"] = "Trang chủ";
 }
 
-<link rel="stylesheet" href="~/css/home.css" />
-<!-- =========================================================
-     SECTION 1 – HERO BANNER
-     ========================================================= -->
+<!-- =========== HERO =========== -->
 <section class="hero" aria-label="Banner khuyến mãi">
     <div class="hero__content">
-        <span class="hero__tag">Mới nhất 2025</span>
-        <h1 class="hero__title">iPhone 16 Pro Max</h1>
+        <span class="hero__tag">
+            <i class="fa-solid fa-bolt" aria-hidden="true"></i> Ưu đãi Hè 2025
+        </span>
+        <h1 class="hero__title">Khám phá Việt Nam cùng chúng tôi</h1>
         <p class="hero__subtitle">
-            Camera 48MP thế hệ mới. Chip A18 Pro mạnh mẽ nhất từ trước đến nay.<br />
-            Trải nghiệm đỉnh cao trong lòng bàn tay bạn.
+            Khách sạn, tour và vé máy bay – chọn chuyến đi phù hợp chỉ trong vài phút.
+            Hành trình tuyệt vời của bạn bắt đầu từ đây.
         </p>
-        <div class="hero__actions">
-            <a href="/products/iphone" class="btn btn--primary">Khám phá ngay</a>
-            <a href="/products/iphone/iphone-16-pro-max" class="btn btn--ghost">Xem chi tiết</a>
+
+        <!-- Quick search widget -->
+        <div class="hero__search-widget">
+            <div class="hero__search-tabs">
+                <button class="hero__search-tab is-active" data-tab="tour">
+                    <i class="fa-solid fa-map-location-dot"></i> Tour
+                </button>
+                <button class="hero__search-tab" data-tab="hotel">
+                    <i class="fa-solid fa-hotel"></i> Khách sạn
+                </button>
+                <button class="hero__search-tab" data-tab="flight">
+                    <i class="fa-solid fa-plane"></i> Vé máy bay
+                </button>
+            </div>
+            <div class="hero__search-form">
+                <div class="hero__search-field">
+                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                    <input type="text" placeholder="Điểm đến (VD: Đà Nẵng, Sapa...)" id="heroDestination" autocomplete="off" />
+                </div>
+                <div class="hero__search-field">
+                    <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+                    <input type="date" id="heroCheckIn" />
+                </div>
+                <div class="hero__search-field">
+                    <i class="fa-solid fa-users" aria-hidden="true"></i>
+                    <input type="number" min="1" max="20" value="2" id="heroGuests" />
+                    <span class="hero__search-field-label">khách</span>
+                </div>
+                <a href="/Home/Booking" class="btn btn--primary hero__search-btn">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Tìm kiếm
+                </a>
+            </div>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="hero__trust">
+            <span><i class="fa-solid fa-shield-halved"></i> Thanh toán an toàn</span>
+            <span><i class="fa-solid fa-headset"></i> Hỗ trợ 24/7</span>
+            <span><i class="fa-solid fa-tag"></i> Giá tốt nhất</span>
         </div>
     </div>
+
     <div class="hero__visual" aria-hidden="true">
         <div class="hero__phone-mockup">
-            <img src="~/images/iphone-17-pro-model-unselect-gallery-2-202509_GEO_US.webp" alt="iPhone 16 Pro Max" loading="eager" />
+            <img src="~/images/hero-travel-banner.webp"
+                 alt="Du lịch 2025"
+                 loading="eager"
+                 onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=600&auto=format&fit=crop'" />
+        </div>
+        <!-- Floating stat cards -->
+        <div class="hero__stat hero__stat--top">
+            <i class="fa-solid fa-star" style="color:#f5a623;"></i>
+            <div>
+                <strong>4.9/5</strong>
+                <span>12.000+ đánh giá</span>
+            </div>
+        </div>
+        <div class="hero__stat hero__stat--bottom">
+            <i class="fa-solid fa-suitcase-rolling" style="color:#0071e3;"></i>
+            <div>
+                <strong>50.000+</strong>
+                <span>Khách đặt tour</span>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- =========================================================
-     SECTION 2 – FEATURED PRODUCTS
-     ========================================================= -->
+<!-- =========== FEATURED TOURS =========== -->
 <section class="section" aria-labelledby="featuredHeading">
     <div class="section__header">
-        <h2 class="section__title" id="featuredHeading">Sản phẩm nổi bật</h2>
-        <a href="/products" class="section__link">Xem tất cả <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        <div>
+            <h2 class="section__title" id="featuredHeading">Chuyến đi nổi bật</h2>
+            <p class="section__subtitle">Những hành trình được yêu thích nhất mùa hè này</p>
+        </div>
+        <a href="/Home/Booking" class="section__link">Xem tất cả tour <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
 
     <div class="products-grid">
 
-        <!-- Product Card 1 -->
         <article class="product-card">
-            <a href="/products/iphone-16-pro" class="product-card__image-link">
+            <a href="/Home/Booking" class="product-card__image-link">
                 <div class="product-card__image-wrap">
-                    <img src="/images/products/iphone-16-pro.png" alt="iPhone 16 Pro" loading="lazy" />
+                    <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=500&auto=format&fit=crop" alt="Tour Đà Lạt" loading="lazy" />
                     <span class="product-card__badge">-10%</span>
+                    <span class="product-card__duration"><i class="fa-regular fa-clock"></i> 3N2Đ</span>
                 </div>
             </a>
             <div class="product-card__body">
-                <p class="product-card__brand">Apple</p>
+                <p class="product-card__brand"><i class="fa-solid fa-location-dot"></i> Khởi hành từ TP.HCM</p>
                 <h3 class="product-card__name">
-                    <a href="/products/iphone-16-pro">iPhone 16 Pro 256GB</a>
+                    <a href="/Home/Booking">Tour Đà Lạt Mộng Mơ 3N2Đ</a>
                 </h3>
-                <div class="product-card__pricing">
-                    <span class="product-card__price">28.990.000 ₫</span>
-                    <span class="product-card__original-price">32.190.000 ₫</span>
+                <div class="product-card__rating">
+                    <span class="stars" aria-label="4.8 sao">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    </span>
+                    <span class="product-card__reviews">4.8 (236 đánh giá)</span>
                 </div>
-                <button class="btn btn--cart" data-product-id="1" aria-label="Thêm iPhone 16 Pro vào giỏ hàng">
-                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    Thêm vào giỏ
+                <div class="product-card__pricing">
+                    <span class="product-card__price">2.490.000 ₫</span>
+                    <span class="product-card__original-price">2.790.000 ₫</span>
+                    <span class="product-card__save">Tiết kiệm 300k</span>
+                </div>
+                <div class="product-card__includes">
+                    <span><i class="fa-solid fa-utensils"></i> Ăn sáng</span>
+                    <span><i class="fa-solid fa-bus"></i> Xe đưa đón</span>
+                    <span><i class="fa-solid fa-camera"></i> Hướng dẫn viên</span>
+                </div>
+                <button class="btn btn--cart" data-product-id="1" aria-label="Đặt tour Đà Lạt">
+                    <i class="fa-solid fa-suitcase-rolling" aria-hidden="true"></i>
+                    Đặt Tour Ngay
                 </button>
             </div>
         </article>
 
-        <!-- Product Card 2 -->
         <article class="product-card">
-            <a href="/products/samsung-s25-ultra" class="product-card__image-link">
+            <a href="/Home/Booking" class="product-card__image-link">
                 <div class="product-card__image-wrap">
-                    <img src="/images/products/samsung-s25-ultra.png" alt="Samsung Galaxy S25 Ultra" loading="lazy" />
+                    <img src="https://images.unsplash.com/photo-1535139262971-c51845709a48?q=80&w=500&auto=format&fit=crop" alt="Phú Quốc" loading="lazy" />
                     <span class="product-card__badge">-15%</span>
+                    <span class="product-card__duration"><i class="fa-regular fa-clock"></i> 4N3Đ</span>
                 </div>
             </a>
             <div class="product-card__body">
-                <p class="product-card__brand">Samsung</p>
+                <p class="product-card__brand"><i class="fa-solid fa-plane"></i> Bao gồm Vé Máy Bay</p>
                 <h3 class="product-card__name">
-                    <a href="/products/samsung-s25-ultra">Galaxy S25 Ultra 256GB</a>
+                    <a href="/Home/Booking">Combo Phú Quốc Resort 5 Sao</a>
                 </h3>
-                <div class="product-card__pricing">
-                    <span class="product-card__price">26.990.000 ₫</span>
-                    <span class="product-card__original-price">31.990.000 ₫</span>
+                <div class="product-card__rating">
+                    <span class="stars" aria-label="4.9 sao">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </span>
+                    <span class="product-card__reviews">4.9 (418 đánh giá)</span>
                 </div>
-                <button class="btn btn--cart" data-product-id="2" aria-label="Thêm Samsung S25 Ultra vào giỏ hàng">
-                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    Thêm vào giỏ
+                <div class="product-card__pricing">
+                    <span class="product-card__price">4.990.000 ₫</span>
+                    <span class="product-card__original-price">5.890.000 ₫</span>
+                    <span class="product-card__save">Tiết kiệm 900k</span>
+                </div>
+                <div class="product-card__includes">
+                    <span><i class="fa-solid fa-plane"></i> Vé máy bay</span>
+                    <span><i class="fa-solid fa-hotel"></i> Resort 5★</span>
+                    <span><i class="fa-solid fa-spa"></i> Spa</span>
+                </div>
+                <button class="btn btn--cart" data-product-id="2" aria-label="Đặt Combo Phú Quốc">
+                    <i class="fa-solid fa-suitcase-rolling" aria-hidden="true"></i>
+                    Đặt Tour Ngay
                 </button>
             </div>
         </article>
 
-        <!-- Product Card 3 -->
         <article class="product-card">
-            <a href="/products/xiaomi-15-pro" class="product-card__image-link">
+            <a href="/Home/Booking" class="product-card__image-link">
                 <div class="product-card__image-wrap">
-                    <img src="/images/products/xiaomi-15-pro.png" alt="Xiaomi 15 Pro" loading="lazy" />
-                    <span class="product-card__badge product-card__badge--new">Mới</span>
+                    <img src="https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=500&auto=format&fit=crop" alt="Sapa" loading="lazy" />
+                    <span class="product-card__badge product-card__badge--new">Hot</span>
+                    <span class="product-card__duration"><i class="fa-regular fa-clock"></i> 3N2Đ</span>
                 </div>
             </a>
             <div class="product-card__body">
-                <p class="product-card__brand">Xiaomi</p>
+                <p class="product-card__brand"><i class="fa-solid fa-location-dot"></i> Khởi hành từ Hà Nội</p>
                 <h3 class="product-card__name">
-                    <a href="/products/xiaomi-15-pro">Xiaomi 15 Pro 512GB</a>
+                    <a href="/Home/Booking">Khám phá Sapa – Đỉnh Fansipan</a>
                 </h3>
-                <div class="product-card__pricing">
-                    <span class="product-card__price">21.990.000 ₫</span>
-                    <span class="product-card__original-price">24.990.000 ₫</span>
+                <div class="product-card__rating">
+                    <span class="stars" aria-label="4.7 sao">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                    </span>
+                    <span class="product-card__reviews">4.7 (192 đánh giá)</span>
                 </div>
-                <button class="btn btn--cart" data-product-id="3" aria-label="Thêm Xiaomi 15 Pro vào giỏ hàng">
-                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    Thêm vào giỏ
+                <div class="product-card__pricing">
+                    <span class="product-card__price">3.150.000 ₫</span>
+                    <span class="product-card__original-price">3.500.000 ₫</span>
+                    <span class="product-card__save">Tiết kiệm 350k</span>
+                </div>
+                <div class="product-card__includes">
+                    <span><i class="fa-solid fa-cable-car"></i> Cáp treo</span>
+                    <span><i class="fa-solid fa-bus"></i> Xe đưa đón</span>
+                    <span><i class="fa-solid fa-camera"></i> HDV</span>
+                </div>
+                <button class="btn btn--cart" data-product-id="3" aria-label="Đặt tour Sapa">
+                    <i class="fa-solid fa-suitcase-rolling" aria-hidden="true"></i>
+                    Đặt Tour Ngay
                 </button>
             </div>
         </article>
 
-        <!-- Product Card 4 -->
         <article class="product-card">
-            <a href="/products/airpods-pro-2" class="product-card__image-link">
+            <a href="/Home/Booking" class="product-card__image-link">
                 <div class="product-card__image-wrap">
-                    <img src="/images/products/airpods-pro-2.png" alt="AirPods Pro 2" loading="lazy" />
+                    <img src="https://images.unsplash.com/photo-1555921015-c262060f0c60?q=80&w=500&auto=format&fit=crop" alt="Đà Nẵng Hội An" loading="lazy" />
                     <span class="product-card__badge">-8%</span>
+                    <span class="product-card__duration"><i class="fa-regular fa-clock"></i> 4N3Đ</span>
                 </div>
             </a>
             <div class="product-card__body">
-                <p class="product-card__brand">Apple</p>
+                <p class="product-card__brand"><i class="fa-solid fa-users"></i> Tour Gia Đình</p>
                 <h3 class="product-card__name">
-                    <a href="/products/airpods-pro-2">AirPods Pro (thế hệ 2)</a>
+                    <a href="/Home/Booking">Đà Nẵng – Hội An – Bà Nà Hills</a>
                 </h3>
-                <div class="product-card__pricing">
-                    <span class="product-card__price">5.990.000 ₫</span>
-                    <span class="product-card__original-price">6.490.000 ₫</span>
+                <div class="product-card__rating">
+                    <span class="stars" aria-label="4.8 sao">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    </span>
+                    <span class="product-card__reviews">4.8 (503 đánh giá)</span>
                 </div>
-                <button class="btn btn--cart" data-product-id="4" aria-label="Thêm AirPods Pro 2 vào giỏ hàng">
-                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    Thêm vào giỏ
+                <div class="product-card__pricing">
+                    <span class="product-card__price">5.500.000 ₫</span>
+                    <span class="product-card__original-price">6.000.000 ₫</span>
+                    <span class="product-card__save">Tiết kiệm 500k</span>
+                </div>
+                <div class="product-card__includes">
+                    <span><i class="fa-solid fa-ticket"></i> Vé Bà Nà</span>
+                    <span><i class="fa-solid fa-hotel"></i> Khách sạn</span>
+                    <span><i class="fa-solid fa-camera"></i> HDV</span>
+                </div>
+                <button class="btn btn--cart" data-product-id="4" aria-label="Đặt tour Đà Nẵng">
+                    <i class="fa-solid fa-suitcase-rolling" aria-hidden="true"></i>
+                    Đặt Tour Ngay
                 </button>
             </div>
         </article>
@@ -136,163 +239,201 @@
     </div>
 </section>
 
-<!-- =========================================================
-     SECTION 3 – CATEGORIES
-     ========================================================= -->
+<!-- =========== DESTINATIONS =========== -->
 <section class="section section--gray" aria-labelledby="categoriesHeading">
     <div class="section__header">
-        <h2 class="section__title" id="categoriesHeading">Danh mục thương hiệu</h2>
-        <a href="/products" class="section__link">Tất cả thương hiệu <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        <div>
+            <h2 class="section__title" id="categoriesHeading">Điểm đến yêu thích</h2>
+            <p class="section__subtitle">Những địa danh hot nhất Việt Nam</p>
+        </div>
+        <a href="/Home/Booking" class="section__link">Tất cả điểm đến <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
 
     <div class="categories-grid">
 
-        <a href="/products/iphone" class="category-card" aria-label="Xem điện thoại iPhone">
-            <div class="category-card__icon-wrap">
-                <img src="/images/brands/apple.svg" alt="Apple" width="48" height="48" />
+        <a href="/Home/Booking" class="category-card" aria-label="Xem điểm đến Hà Nội">
+            <div class="category-card__image-wrap">
+                <img src="https://images.unsplash.com/photo-1619418602850-35ad20aa1700?q=80&w=300&auto=format&fit=crop" alt="Hà Nội" loading="lazy" />
             </div>
-            <span class="category-card__name">iPhone</span>
-            <span class="category-card__count">24 sản phẩm</span>
+            <div class="category-card__overlay">
+                <span class="category-card__name">Hà Nội</span>
+                <span class="category-card__count">24 chuyến</span>
+            </div>
         </a>
 
-        <a href="/products/samsung" class="category-card" aria-label="Xem điện thoại Samsung">
-            <div class="category-card__icon-wrap">
-                <img src="/images/brands/samsung.svg" alt="Samsung" width="48" height="48" />
+        <a href="/Home/Booking" class="category-card" aria-label="Xem điểm đến Đà Nẵng">
+            <div class="category-card__image-wrap">
+                <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=300&auto=format&fit=crop" alt="Đà Nẵng" loading="lazy" />
             </div>
-            <span class="category-card__name">Samsung</span>
-            <span class="category-card__count">31 sản phẩm</span>
+            <div class="category-card__overlay">
+                <span class="category-card__name">Đà Nẵng</span>
+                <span class="category-card__count">31 chuyến</span>
+            </div>
         </a>
 
-        <a href="/products/xiaomi" class="category-card" aria-label="Xem điện thoại Xiaomi">
-            <div class="category-card__icon-wrap">
-                <img src="/images/brands/xiaomi.svg" alt="Xiaomi" width="48" height="48" />
+        <a href="/Home/Booking" class="category-card" aria-label="Xem điểm đến Hồ Chí Minh">
+            <div class="category-card__image-wrap">
+                <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?q=80&w=300&auto=format&fit=crop" alt="Hồ Chí Minh" loading="lazy" />
             </div>
-            <span class="category-card__name">Xiaomi</span>
-            <span class="category-card__count">18 sản phẩm</span>
+            <div class="category-card__overlay">
+                <span class="category-card__name">Hồ Chí Minh</span>
+                <span class="category-card__count">18 chuyến</span>
+            </div>
         </a>
 
-        <a href="/products/accessories" class="category-card" aria-label="Xem phụ kiện">
-            <div class="category-card__icon-wrap">
-                <i class="fa-solid fa-headphones fa-2x" aria-hidden="true"></i>
+        <a href="/Home/Booking" class="category-card" aria-label="Xem điểm đến Đà Lạt">
+            <div class="category-card__image-wrap">
+                <img src="https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=300&auto=format&fit=crop" alt="Đà Lạt" loading="lazy" />
             </div>
-            <span class="category-card__name">Phụ kiện</span>
-            <span class="category-card__count">52 sản phẩm</span>
+            <div class="category-card__overlay">
+                <span class="category-card__name">Đà Lạt</span>
+                <span class="category-card__count">52 chuyến</span>
+            </div>
         </a>
 
-        <a href="/products/oppo" class="category-card" aria-label="Xem điện thoại OPPO">
-            <div class="category-card__icon-wrap">
-                <img src="/images/brands/oppo.svg" alt="OPPO" width="48" height="48" />
+        <a href="/Home/Booking" class="category-card" aria-label="Xem điểm đến Nha Trang">
+            <div class="category-card__image-wrap">
+                <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=300&auto=format&fit=crop" alt="Nha Trang" loading="lazy" />
             </div>
-            <span class="category-card__name">OPPO</span>
-            <span class="category-card__count">12 sản phẩm</span>
+            <div class="category-card__overlay">
+                <span class="category-card__name">Nha Trang</span>
+                <span class="category-card__count">12 chuyến</span>
+            </div>
         </a>
 
-        <a href="/products/vivo" class="category-card" aria-label="Xem điện thoại vivo">
-            <div class="category-card__icon-wrap">
-                <img src="/images/brands/vivo.svg" alt="vivo" width="48" height="48" />
+        <a href="/Home/Booking" class="category-card" aria-label="Xem điểm đến Phú Quốc">
+            <div class="category-card__image-wrap">
+                <img src="https://images.unsplash.com/photo-1535139262971-c51845709a48?q=80&w=300&auto=format&fit=crop" alt="Phú Quốc" loading="lazy" />
             </div>
-            <span class="category-card__name">vivo</span>
-            <span class="category-card__count">9 sản phẩm</span>
+            <div class="category-card__overlay">
+                <span class="category-card__name">Phú Quốc</span>
+                <span class="category-card__count">27 chuyến</span>
+            </div>
         </a>
 
     </div>
 </section>
 
-<!-- =========================================================
-     SECTION 4 – BEST SELLERS
-     ========================================================= -->
-<section class="section" aria-labelledby="bestsellerHeading">
+<!-- =========== WHY US =========== -->
+<section class="section why-us" aria-labelledby="whyUsHeading">
+    <div class="section__header section__header--center">
+        <div>
+            <h2 class="section__title" id="whyUsHeading">Tại sao chọn Travel Booking?</h2>
+            <p class="section__subtitle">Hơn 10 năm kinh nghiệm – Hơn 50.000 khách hàng tin tưởng</p>
+        </div>
+    </div>
+    <div class="why-us__grid">
+        <div class="why-us__card">
+            <div class="why-us__icon-wrap">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3 class="why-us__title">Thanh toán an toàn</h3>
+            <p class="why-us__desc">Hỗ trợ 10+ phương thức thanh toán. Bảo mật SSL 256-bit, hoàn tiền 100% nếu có sự cố.</p>
+        </div>
+        <div class="why-us__card">
+            <div class="why-us__icon-wrap">
+                <i class="fa-solid fa-tag"></i>
+            </div>
+            <h3 class="why-us__title">Cam kết giá tốt nhất</h3>
+            <p class="why-us__desc">Tìm thấy giá rẻ hơn? Chúng tôi hoàn trả 110% chênh lệch trong vòng 24 giờ.</p>
+        </div>
+        <div class="why-us__card">
+            <div class="why-us__icon-wrap">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+            <h3 class="why-us__title">Hỗ trợ 24/7</h3>
+            <p class="why-us__desc">Đội ngũ tư vấn viên sẵn sàng hỗ trợ bạn mọi lúc qua hotline, chat và email.</p>
+        </div>
+        <div class="why-us__card">
+            <div class="why-us__icon-wrap">
+                <i class="fa-solid fa-rotate-left"></i>
+            </div>
+            <h3 class="why-us__title">Huỷ miễn phí</h3>
+            <p class="why-us__desc">Linh hoạt thay đổi hoặc huỷ lịch trình trước 48 giờ mà không mất phí.</p>
+        </div>
+    </div>
+</section>
+
+<!-- =========== BESTSELLERS =========== -->
+<section class="section section--gray" aria-labelledby="bestsellerHeading">
     <div class="section__header">
-        <h2 class="section__title" id="bestsellerHeading">Bán chạy nhất</h2>
-        <a href="/products?sort=bestseller" class="section__link">Xem tất cả <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        <div>
+            <h2 class="section__title" id="bestsellerHeading">Top hành trình bán chạy</h2>
+            <p class="section__subtitle">Được khách hàng đặt nhiều nhất tháng này</p>
+        </div>
+        <a href="/Home/Booking" class="section__link">Xem tất cả <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
     </div>
 
     <div class="bestsellers-list">
 
-        <!-- Bestseller Item 1 -->
         <article class="bestseller-card">
             <span class="bestseller-card__rank" aria-label="Hạng 1">#1</span>
-            <a href="/products/iphone-15" class="bestseller-card__image-link">
-                <img src="/images/products/iphone-15.png" alt="iPhone 15 128GB" loading="lazy" />
+            <a href="/Home/Booking" class="bestseller-card__image-link">
+                <img src="https://images.unsplash.com/photo-1583417311754-04f8fc19de15?q=80&w=200&auto=format&fit=crop" alt="Vịnh Hạ Long" loading="lazy" />
             </a>
             <div class="bestseller-card__info">
-                <p class="bestseller-card__brand">Apple</p>
+                <p class="bestseller-card__brand">Tour Cao Cấp · 2N1Đ</p>
                 <h3 class="bestseller-card__name">
-                    <a href="/products/iphone-15">iPhone 15 128GB</a>
+                    <a href="/Home/Booking">Du Thuyền 5 Sao Vịnh Hạ Long</a>
                 </h3>
-                <p class="bestseller-card__sold">Đã bán 1.240+</p>
+                <div class="bestseller-card__meta">
+                    <span class="stars stars--sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+                    <span class="bestseller-card__sold">1.240+ khách đã đặt</span>
+                </div>
             </div>
             <div class="bestseller-card__right">
-                <span class="bestseller-card__price">22.990.000 ₫</span>
-                <button class="btn btn--cart btn--sm" data-product-id="5" aria-label="Thêm iPhone 15 vào giỏ">
-                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    Thêm vào giỏ
+                <span class="bestseller-card__price">3.200.000 ₫</span>
+                <span class="bestseller-card__per">/người</span>
+                <button class="btn btn--cart btn--sm" data-product-id="5">
+                    <i class="fa-solid fa-suitcase-rolling" aria-hidden="true"></i> Đặt Ngay
                 </button>
             </div>
         </article>
 
-        <!-- Bestseller Item 2 -->
         <article class="bestseller-card">
             <span class="bestseller-card__rank" aria-label="Hạng 2">#2</span>
-            <a href="/products/samsung-a55" class="bestseller-card__image-link">
-                <img src="/images/products/samsung-a55.png" alt="Samsung Galaxy A55 256GB" loading="lazy" />
+            <a href="/Home/Booking" class="bestseller-card__image-link">
+                <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=200&auto=format&fit=crop" alt="Quy Nhơn" loading="lazy" />
             </a>
             <div class="bestseller-card__info">
-                <p class="bestseller-card__brand">Samsung</p>
+                <p class="bestseller-card__brand">Khởi hành từ Hà Nội · 3N2Đ</p>
                 <h3 class="bestseller-card__name">
-                    <a href="/products/samsung-a55">Galaxy A55 256GB</a>
+                    <a href="/Home/Booking">Tour Quy Nhơn – Kỳ Co – Eo Gió</a>
                 </h3>
-                <p class="bestseller-card__sold">Đã bán 980+</p>
+                <div class="bestseller-card__meta">
+                    <span class="stars stars--sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></span>
+                    <span class="bestseller-card__sold">980+ khách đã đặt</span>
+                </div>
             </div>
             <div class="bestseller-card__right">
-                <span class="bestseller-card__price">9.990.000 ₫</span>
-                <button class="btn btn--cart btn--sm" data-product-id="6" aria-label="Thêm Samsung A55 vào giỏ">
-                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    Thêm vào giỏ
+                <span class="bestseller-card__price">4.500.000 ₫</span>
+                <span class="bestseller-card__per">/người</span>
+                <button class="btn btn--cart btn--sm" data-product-id="6">
+                    <i class="fa-solid fa-suitcase-rolling" aria-hidden="true"></i> Đặt Ngay
                 </button>
             </div>
         </article>
 
-        <!-- Bestseller Item 3 -->
         <article class="bestseller-card">
             <span class="bestseller-card__rank" aria-label="Hạng 3">#3</span>
-            <a href="/products/xiaomi-redmi-note-13" class="bestseller-card__image-link">
-                <img src="/images/products/redmi-note-13.png" alt="Redmi Note 13 Pro 256GB" loading="lazy" />
+            <a href="/Home/Booking" class="bestseller-card__image-link">
+                <img src="https://images.unsplash.com/photo-1555921015-c262060f0c60?q=80&w=200&auto=format&fit=crop" alt="Hội An" loading="lazy" />
             </a>
             <div class="bestseller-card__info">
-                <p class="bestseller-card__brand">Xiaomi</p>
+                <p class="bestseller-card__brand">Khởi hành từ TP.HCM · 4N3Đ</p>
                 <h3 class="bestseller-card__name">
-                    <a href="/products/xiaomi-redmi-note-13">Redmi Note 13 Pro 256GB</a>
+                    <a href="/Home/Booking">Hội An Phố Cổ – Mỹ Sơn Thánh Địa</a>
                 </h3>
-                <p class="bestseller-card__sold">Đã bán 874+</p>
+                <div class="bestseller-card__meta">
+                    <span class="stars stars--sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></span>
+                    <span class="bestseller-card__sold">840+ khách đã đặt</span>
+                </div>
             </div>
             <div class="bestseller-card__right">
-                <span class="bestseller-card__price">7.490.000 ₫</span>
-                <button class="btn btn--cart btn--sm" data-product-id="7" aria-label="Thêm Redmi Note 13 vào giỏ">
-                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    Thêm vào giỏ
-                </button>
-            </div>
-        </article>
-
-        <!-- Bestseller Item 4 -->
-        <article class="bestseller-card">
-            <span class="bestseller-card__rank" aria-label="Hạng 4">#4</span>
-            <a href="/products/samsung-s24-fe" class="bestseller-card__image-link">
-                <img src="/images/products/samsung-s24-fe.png" alt="Samsung Galaxy S24 FE 256GB" loading="lazy" />
-            </a>
-            <div class="bestseller-card__info">
-                <p class="bestseller-card__brand">Samsung</p>
-                <h3 class="bestseller-card__name">
-                    <a href="/products/samsung-s24-fe">Galaxy S24 FE 256GB</a>
-                </h3>
-                <p class="bestseller-card__sold">Đã bán 720+</p>
-            </div>
-            <div class="bestseller-card__right">
-                <span class="bestseller-card__price">12.990.000 ₫</span>
-                <button class="btn btn--cart btn--sm" data-product-id="8" aria-label="Thêm Galaxy S24 FE vào giỏ">
-                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    Thêm vào giỏ
+                <span class="bestseller-card__price">3.800.000 ₫</span>
+                <span class="bestseller-card__per">/người</span>
+                <button class="btn btn--cart btn--sm" data-product-id="7">
+                    <i class="fa-solid fa-suitcase-rolling" aria-hidden="true"></i> Đặt Ngay
                 </button>
             </div>
         </article>
@@ -300,12 +441,53 @@
     </div>
 </section>
 
-<!-- =========================================================
-     TOAST NOTIFICATION (add to cart feedback)
-     ========================================================= -->
-<div class="toast" id="cartToast" role="alert" aria-live="polite" aria-atomic="true">
-    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-    <span id="cartToastMsg">Đã thêm sản phẩm vào giỏ hàng!</span>
-</div>
-
-<script src="~/js/home.js"></script>
+<!-- =========== TESTIMONIALS =========== -->
+<section class="section testimonials" aria-labelledby="testimonialsHeading">
+    <div class="section__header section__header--center">
+        <div>
+            <h2 class="section__title" id="testimonialsHeading">Khách hàng nói gì về chúng tôi?</h2>
+            <p class="section__subtitle">Hơn 12.000 đánh giá 5 sao từ khách hàng thực tế</p>
+        </div>
+    </div>
+    <div class="testimonials__grid">
+        <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-card__text">"Đặt tour Phú Quốc qua Travel Booking rất tiện lợi. Giá tốt, hướng dẫn viên nhiệt tình, khách sạn đúng tiêu chuẩn. Chắc chắn sẽ đặt lại!"</p>
+            <div class="testimonial-card__author">
+                <img src="https://i.pravatar.cc/48?img=47" alt="Nguyễn Thị Lan" loading="lazy" />
+                <div>
+                    <strong>Nguyễn Thị Lan</strong>
+                    <span>Tour Phú Quốc · Tháng 5/2025</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-card__text">"Gia đình mình 4 người đặt tour Đà Nẵng – Hội An. Mọi thứ được chuẩn bị chu đáo từ xe đón đến bữa ăn. Dịch vụ vượt kỳ vọng!"</p>
+            <div class="testimonial-card__author">
+                <img src="https://i.pravatar.cc/48?img=12" alt="Trần Văn Minh" loading="lazy" />
+                <div>
+                    <strong>Trần Văn Minh</strong>
+                    <span>Tour Đà Nẵng · Tháng 6/2025</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+            </div>
+            <p class="testimonial-card__text">"Hotline hỗ trợ 24/7 thực sự hữu ích khi mình gặp sự cố đổi lịch. Nhân viên giải quyết nhanh chóng, chuyên nghiệp."</p>
+            <div class="testimonial-card__author">
+                <img src="https://i.pravatar.cc/48?img=32" alt="Lê Thu Hương" loading="lazy" />
+                <div>
+                    <strong>Lê Thu Hương</strong>
+                    <span>Tour Sapa · Tháng 4/2025</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

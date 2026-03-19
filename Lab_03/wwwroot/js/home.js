@@ -1,9 +1,11 @@
-﻿/**
- * home.js – PhoneStore
+/**
+ * home.js – Travel Booking
  * - Navbar sticky shadow on scroll
  * - Hamburger mobile menu toggle
  * - Search input interaction (expand / clear on Escape)
- * - Add-to-cart demo interaction (badge counter + toast)
+ * - Add-to-cart / booking interaction (badge counter + toast)
+ * - Hero search tabs
+ * - Smooth reveal on scroll (IntersectionObserver)
  */
 
 (function () {
@@ -24,7 +26,7 @@
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Run once on load in case page is pre-scrolled
+    handleScroll();
 
 
     /* ---------------------------------------------------------------
@@ -40,7 +42,6 @@
             mobileMenu.setAttribute('aria-hidden', (!isOpen).toString());
         });
 
-        // Close mobile menu when a link inside it is clicked
         mobileMenu.querySelectorAll('a').forEach(function (link) {
             link.addEventListener('click', function () {
                 mobileMenu.classList.remove('is-open');
@@ -49,7 +50,6 @@
             });
         });
 
-        // Close on outside click
         document.addEventListener('click', function (e) {
             if (
                 mobileMenu.classList.contains('is-open') &&
@@ -64,27 +64,22 @@
 
 
     /* ---------------------------------------------------------------
-       3. SEARCH INPUT INTERACTION
+       3. NAVBAR SEARCH INPUT INTERACTION
     --------------------------------------------------------------- */
     const searchInput = document.getElementById('searchInput');
 
     if (searchInput) {
-        // Clear input on Escape key
         searchInput.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 searchInput.value = '';
                 searchInput.blur();
             }
-        });
-
-        // Submit on Enter (demo: log query or redirect)
-        searchInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
                 const query = searchInput.value.trim();
                 if (query.length > 0) {
-                    // In a real app: window.location.href = '/products?q=' + encodeURIComponent(query);
-                    console.log('[PhoneStore] Search query:', query);
                     showToast('Đang tìm kiếm: "' + query + '"');
+                    // Real app: window.location.href = '/Home/Booking?q=' + encodeURIComponent(query);
+                    console.log('[TravelBooking] Search query:', query);
                 }
             }
         });
@@ -92,59 +87,83 @@
 
 
     /* ---------------------------------------------------------------
-       4. ADD-TO-CART DEMO INTERACTION
+       4. HERO SEARCH TABS
+    --------------------------------------------------------------- */
+    const heroTabs = document.querySelectorAll('.hero__search-tab');
+
+    if (heroTabs.length > 0) {
+        heroTabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                heroTabs.forEach(function (t) { t.classList.remove('is-active'); });
+                tab.classList.add('is-active');
+
+                // Update destination placeholder based on tab
+                const heroDestInput = document.getElementById('heroDestination');
+                if (!heroDestInput) return;
+
+                const type = tab.dataset.tab;
+                if (type === 'tour') heroDestInput.placeholder = 'Điểm đến (VD: Đà Nẵng, Sapa...)';
+                if (type === 'hotel') heroDestInput.placeholder = 'Nhập thành phố / khách sạn...';
+                if (type === 'flight') heroDestInput.placeholder = 'Bay đến đâu? (VD: Hà Nội, Phú Quốc...)';
+            });
+        });
+    }
+
+
+    /* ---------------------------------------------------------------
+       5. HERO SEARCH – SET DEFAULT DATE
+    --------------------------------------------------------------- */
+    const heroCheckIn = document.getElementById('heroCheckIn');
+    if (heroCheckIn && !heroCheckIn.value) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        heroCheckIn.value = tomorrow.toISOString().split('T')[0];
+        heroCheckIn.min = tomorrow.toISOString().split('T')[0];
+    }
+
+
+    /* ---------------------------------------------------------------
+       6. ADD-TO-CART / BOOKING INTERACTION
     --------------------------------------------------------------- */
     let cartCount = 0;
-    const cartBadge = document.getElementById('cartBadge');
+    const cartBadge = document.getElementById('bookingBadge');
     const cartToast = document.getElementById('cartToast');
     const cartToastMsg = document.getElementById('cartToastMsg');
     let toastTimer = null;
 
-    /**
-     * Show a toast message.
-     * @param {string} message
-     */
     function showToast(message) {
         if (!cartToast) return;
         if (cartToastMsg) cartToastMsg.textContent = message;
 
         cartToast.classList.add('show');
 
-        // Clear any existing timer
         if (toastTimer) clearTimeout(toastTimer);
-
         toastTimer = setTimeout(function () {
             cartToast.classList.remove('show');
         }, 3000);
     }
 
-    /**
-     * Update the cart badge count.
-     */
     function updateCartBadge() {
         if (!cartBadge) return;
         cartBadge.textContent = cartCount;
         cartBadge.style.display = cartCount > 0 ? 'flex' : 'none';
 
-        // Animate the badge
         cartBadge.classList.remove('bump');
-        // Force reflow to restart animation
-        void cartBadge.offsetWidth;
+        void cartBadge.offsetWidth; // force reflow
         cartBadge.classList.add('bump');
     }
 
-    // Delegate click event for all "add to cart" buttons
+    // Delegate click for all .btn--cart buttons
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.btn--cart');
         if (!btn) return;
 
         const productId = btn.dataset.productId || 'unknown';
 
-        // Optimistic UI: increment cart
         cartCount += 1;
         updateCartBadge();
 
-        // Visual feedback on button
+        // Visual feedback
         const originalHTML = btn.innerHTML;
         btn.classList.add('added');
         btn.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i> Đã thêm';
@@ -156,23 +175,39 @@
             btn.disabled = false;
         }, 1800);
 
-        // Show toast
-        showToast('Đã thêm sản phẩm vào giỏ hàng!');
+        showToast('Đã thêm chuyến đi vào danh sách đặt chỗ!');
 
-        // In a real app, you'd send a POST to /api/cart
-        console.log('[PhoneStore] Added product ID', productId, 'to cart. Total:', cartCount);
+        try {
+            localStorage.setItem('bookingCount', cartCount.toString());
+        } catch (err) { /* ignore */ }
+
+        console.log('[TravelBooking] Added item ID', productId, '– Total:', cartCount);
     });
 
-    // Initialise badge visibility
+    // Restore count from localStorage
+    try {
+        const raw = localStorage.getItem('bookingCount');
+        const saved = raw ? parseInt(raw, 10) : 0;
+        cartCount = Number.isFinite(saved) ? saved : 0;
+    } catch (err) { /* ignore */ }
+
     updateCartBadge();
 
 
     /* ---------------------------------------------------------------
-       5. SMOOTH REVEAL ON SCROLL (Intersection Observer)
+       7. SMOOTH REVEAL ON SCROLL (IntersectionObserver)
     --------------------------------------------------------------- */
-    const revealEls = document.querySelectorAll(
-        '.product-card, .category-card, .bestseller-card, .hero__content, .hero__visual'
-    );
+    const revealSelectors = [
+        '.product-card',
+        '.category-card',
+        '.bestseller-card',
+        '.why-us__card',
+        '.testimonial-card',
+        '.hero__content',
+        '.hero__visual'
+    ].join(', ');
+
+    const revealEls = document.querySelectorAll(revealSelectors);
 
     if ('IntersectionObserver' in window && revealEls.length > 0) {
         const observer = new IntersectionObserver(function (entries) {
@@ -185,10 +220,11 @@
             });
         }, { threshold: 0.1 });
 
-        revealEls.forEach(function (el) {
+        revealEls.forEach(function (el, i) {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+            // Stagger delay for grid children
+            el.style.transition = 'opacity 0.45s ease ' + (i * 0.05) + 's, transform 0.45s ease ' + (i * 0.05) + 's';
             observer.observe(el);
         });
     }

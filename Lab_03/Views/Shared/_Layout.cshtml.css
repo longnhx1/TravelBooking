@@ -1,48 +1,93 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/* =============================================================
+   _Layout.cshtml.css
+   Scoped layout-level overrides that sit on top of home.css.
+   home.css owns all design tokens – this file only adjusts
+   Bootstrap integration and layout-specific utilities.
+   ============================================================= */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
+/* ------------------------------------------------------------------ */
+/* 1. BOOTSTRAP OVERRIDES                                               */
+/* ------------------------------------------------------------------ */
 
+/* Remove default Bootstrap link color so home.css controls it */
 a {
-  color: #0077cc;
+    color: inherit;
 }
 
+/* Align Bootstrap .btn-primary with our design token */
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: var(--color-accent, #0071e3);
+    border-color: var(--color-accent, #0071e3);
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: var(--color-accent-hover, #005bbf);
+        border-color: var(--color-accent-hover, #005bbf);
+    }
+
+/* Nav pills active state */
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: var(--color-accent, #0071e3);
+    border-color: var(--color-accent, #0071e3);
 }
+
+/* ------------------------------------------------------------------ */
+/* 2. UTILITY CLASSES                                                   */
+/* ------------------------------------------------------------------ */
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--color-border, #e8e8ed) !important;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--color-border, #e8e8ed) !important;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: var(--shadow-sm, 0 2px 8px rgba(0,0,0,.08));
 }
+
+/* ------------------------------------------------------------------ */
+/* 3. COOKIE CONSENT BANNER                                             */
+/* ------------------------------------------------------------------ */
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
+    background: var(--color-accent, #0071e3);
+    color: #fff;
+    border: none;
+    padding: .5rem 1.25rem;
+    border-radius: var(--radius-pill, 50px);
+    cursor: pointer;
+    transition: background .2s ease;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+    button.accept-policy:hover {
+        background: var(--color-accent-hover, #005bbf);
+    }
+
+/* ------------------------------------------------------------------ */
+/* 4. NAVBAR BRAND (Bootstrap fallback if logo image fails)             */
+/* ------------------------------------------------------------------ */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+    font-weight: 700;
+    color: var(--color-text, #1d1d1f);
 }
+
+/* ------------------------------------------------------------------ */
+/* 5. FOOTER OVERRIDE                                                   */
+/* The .footer class is fully managed by home.css.                      */
+/* This rule is kept as a no-op placeholder — DO NOT add               */
+/* position:absolute here as it breaks the sticky footer layout.        */
+/* ------------------------------------------------------------------ */
+
+/* .footer { } */
