@@ -12,167 +12,233 @@ namespace Lab_03.Areas.Admin.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository)
+
+        public ProductController(
+            IProductRepository productRepository,
+            ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
-        // Hiển thị danh sách sản phẩm
+
+        // ---------------------------------------------------------------
+        // Hiển thị danh sách Tour
+        // ---------------------------------------------------------------
         public async Task<IActionResult> Index()
         {
-            var products = await _productRepository.GetAllAsync();
-            return View(products);
+            var tours = await _productRepository.GetAllAsync();
+            return View(tours);
         }
 
-        // Hiển thị form thêm sản phẩm mới
+        // ---------------------------------------------------------------
+        // Hiển thị form thêm Tour mới
+        // ---------------------------------------------------------------
         public async Task<IActionResult> Add()
         {
-            var categories = await _categoryRepository.GetAllAsync();
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
-
+            await PopulateCategoriesAsync();
             return View();
         }
 
-        // Xử lý thêm sản phẩm mới
+        // ---------------------------------------------------------------
+        // Xử lý thêm Tour mới
+        // ---------------------------------------------------------------
         [HttpPost]
-        public async Task<IActionResult> Add(Product product, IFormFile ImageUrl)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Product tour, IFormFile? ImageUrl)
         {
+            // Validate ngày khởi hành không được ở quá khứ
+            if (tour.DepartureDate.HasValue && tour.DepartureDate.Value < DateTime.Today)
+            {
+                ModelState.AddModelError(
+                    nameof(tour.DepartureDate),
+                    "Ngày khởi hành phải từ hôm nay trở đi."
+                );
+            }
+
             if (ModelState.IsValid)
             {
                 if (ImageUrl != null)
                 {
-                    // Lưu hình ảnh
-                    product.ImageUrl = await SaveImage(ImageUrl);
+                    tour.ImageUrl = await SaveImageAsync(ImageUrl);
                 }
 
-                await _productRepository.AddAsync(product);
+                await _productRepository.AddAsync(tour);
+                TempData["SuccessMessage"] = $"Tour \"{tour.Name}\" đã được thêm thành công!";
                 return RedirectToAction(nameof(Index));
             }
 
-            // Nếu ModelState không hợp lệ
-            var categories = await _categoryRepository.GetAllAsync();
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
-
-            return View(product);
+            await PopulateCategoriesAsync(tour.CategoryId);
+            return View(tour);
         }
 
-        // Hàm lưu hình ảnh
-        private async Task<string> SaveImage(IFormFile image)
+        // ---------------------------------------------------------------
+        // Hiển thị thông tin chi tiết Tour
+        // ---------------------------------------------------------------
+        public async Task<IActionResult> Display(int id)
         {
-            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+            var tour = await _productRepository.GetByIdAsync(id);
+
+            if (tour == null)
+            {
+                return NotFound();
+            }
+
+            return View(tour);
+        }
+
+        // ---------------------------------------------------------------
+        // Hiển thị form cập nhật Tour
+        // ---------------------------------------------------------------
+        public async Task<IActionResult> Update(int id)
+        {
+            var tour = await _productRepository.GetByIdAsync(id);
+
+            if (tour == null)
+            {
+                return NotFound();
+            }
+
+            await PopulateCategoriesAsync(tour.CategoryId);
+            return View(tour);
+        }
+
+        // ---------------------------------------------------------------
+        // Xử lý cập nhật Tour
+        // ---------------------------------------------------------------
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int id, Product tour, IFormFile? ImageUrl)
+        {
+            if (id != tour.Id)
+            {
+                return NotFound();
+            }
+
+            // ImageUrl là string optional — bỏ qua validation mặc định của nó
+            ModelState.Remove(nameof(tour.ImageUrl));
+
+            // Validate ngày khởi hành không được ở quá khứ
+            if (tour.DepartureDate.HasValue && tour.DepartureDate.Value < DateTime.Today)
+            {
+                ModelState.AddModelError(
+                    nameof(tour.DepartureDate),
+                    "Ngày khởi hành phải từ hôm nay trở đi."
+                );
+            }
+
+            if (ModelState.IsValid)
+            {
+                var existingTour = await _productRepository.GetByIdAsync(id);
+
+                if (existingTour == null)
+                {
+                    return NotFound();
+                }
+
+                // Nếu không upload ảnh mới thì giữ nguyên ảnh cũ
+                existingTour.ImageUrl = ImageUrl != null
+                    ? await SaveImageAsync(ImageUrl)
+                    : existingTour.ImageUrl;
+
+                // Cập nhật các field cơ bản
+                existingTour.Name = tour.Name;
+                existingTour.Price = tour.Price;
+                existingTour.Description = tour.Description;
+                existingTour.CategoryId = tour.CategoryId;
+
+                // Cập nhật các field chuyên biệt cho Tour Du Lịch
+                existingTour.DepartureLocation = tour.DepartureLocation;
+                existingTour.Duration = tour.Duration;
+                existingTour.DepartureDate = tour.DepartureDate;
+                existingTour.AvailableSeats = tour.AvailableSeats;
+
+                await _productRepository.UpdateAsync(existingTour);
+
+                TempData["SuccessMessage"] = $"Tour \"{existingTour.Name}\" đã được cập nhật thành công!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            await PopulateCategoriesAsync(tour.CategoryId);
+            return View(tour);
+        }
+
+        // ---------------------------------------------------------------
+        // Hiển thị form xác nhận xóa Tour
+        // ---------------------------------------------------------------
+        public async Task<IActionResult> Delete(int id)
+        {
+            var tour = await _productRepository.GetByIdAsync(id);
+
+            if (tour == null)
+            {
+                return NotFound();
+            }
+
+            return View(tour);
+        }
+
+        // ---------------------------------------------------------------
+        // Xử lý xóa Tour
+        // ---------------------------------------------------------------
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var tour = await _productRepository.GetByIdAsync(id);
+
+            if (tour == null)
+            {
+                return NotFound();
+            }
+
+            await _productRepository.DeleteAsync(id);
+
+            TempData["SuccessMessage"] = $"Tour \"{tour.Name}\" đã được xóa thành công!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        // ===============================================================
+        // PRIVATE HELPERS
+        // ===============================================================
+
+        /// <summary>
+        /// Lưu file ảnh vào wwwroot/images và trả về đường dẫn tương đối.
+        /// Tên file được tạo duy nhất bằng GUID để tránh trùng lặp.
+        /// </summary>
+        private async Task<string> SaveImageAsync(IFormFile image)
+        {
+            var folderPath = Path.Combine(
+                Directory.GetCurrentDirectory(), "wwwroot", "images"
+            );
 
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
 
-            var filePath = Path.Combine(folderPath, image.FileName);
+            // Dùng GUID + extension gốc để tránh file trùng tên
+            var extension = Path.GetExtension(image.FileName);
+            var uniqueFileName = $"{Guid.NewGuid()}{extension}";
+            var filePath = Path.Combine(folderPath, uniqueFileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await image.CopyToAsync(fileStream);
             }
 
-            return "/images/" + image.FileName;
+            return "/images/" + uniqueFileName;
         }
 
-        // Hiển thị thông tin chi tiết sản phẩm
-        public async Task<IActionResult> Display(int id)
+        /// <summary>
+        /// Populate ViewBag.Categories cho dropdown danh mục (Điểm đến).
+        /// selectedId dùng để pre-select khi edit.
+        /// </summary>
+        private async Task PopulateCategoriesAsync(int? selectedId = null)
         {
-            var product = await _productRepository.GetByIdAsync(id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
-        // Hiển thị form cập nhật sản phẩm
-        public async Task<IActionResult> Update(int id)
-        {
-            var product = await _productRepository.GetByIdAsync(id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
             var categories = await _categoryRepository.GetAllAsync();
             ViewBag.Categories = new SelectList(
-                categories,
-                "Id",
-                "Name",
-                product.CategoryId
+                categories, "Id", "Name", selectedId
             );
-
-            return View(product);
-        }
-
-        // Xử lý cập nhật sản phẩm
-        [HttpPost]
-        public async Task<IActionResult> Update(int id, Product product, IFormFile ImageUrl)
-        {
-            ModelState.Remove("ImageUrl");
-
-            if (id != product.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                var existingProduct = await _productRepository.GetByIdAsync(id);
-
-                // Nếu không có hình mới thì giữ nguyên
-                if (ImageUrl == null)
-                {
-                    product.ImageUrl = existingProduct.ImageUrl;
-                }
-                else
-                {
-                    // Lưu hình mới
-                    product.ImageUrl = await SaveImage(ImageUrl);
-                }
-
-                // Cập nhật dữ liệu
-                existingProduct.Name = product.Name;
-                existingProduct.Price = product.Price;
-                existingProduct.Description = product.Description;
-                existingProduct.CategoryId = product.CategoryId;
-                existingProduct.ImageUrl = product.ImageUrl;
-
-                await _productRepository.UpdateAsync(existingProduct);
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            var categories = await _categoryRepository.GetAllAsync();
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
-
-            return View(product);
-        }
-
-        // Hiển thị form xác nhận xóa
-        public async Task<IActionResult> Delete(int id)
-        {
-            var product = await _productRepository.GetByIdAsync(id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
-        // Xử lý xóa
-        [HttpPost, ActionName("DeleteConfirmed")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            await _productRepository.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
         }
     }
 }
