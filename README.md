@@ -152,13 +152,5 @@ TravelBooking/
 
 ---
 
-## 👥 Thành viên nhóm
-
-| Tên | MSSV | Vai trò |
-|---|---|---|
-|  |  |  |
-|  |  |  |
-
----
 
 > 📌 Nếu gặp vấn đề trong quá trình setup, liên hệ nhóm trưởng hoặc tạo **Issue** trên GitHub.
